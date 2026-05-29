@@ -1,1840 +1,1000 @@
-python3 - <<'PY'
-from pathlib import Path
-
-p = Path("index.html")
-s = p.read_text()
-
-patch = """
-/* === V2.1 BRIGHTNESS PATCH === */
-body {
-  background:
-    radial-gradient(circle at top, rgba(255,106,0,.18), transparent 30%),
-    linear-gradient(180deg, #1b0d06 0%, #101018 30%, #0f111a 100%) !important;
-  color: #ffffff !important;
-}
-
-.hero {
-  border-bottom-color: rgba(255,106,0,.28) !important;
-}
-
-.panel {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
-    #171923 !important;
-  border-color: rgba(255,255,255,.14) !important;
-  box-shadow: 0 18px 60px rgba(0,0,0,.28) !important;
-}
-
-.label {
-  color: #ff9b72 !important;
-}
-
-.sub,
-.mini,
-.active-text {
-  color: #d1d5db !important;
-}
-
-input,
-textarea,
-select {
-  background: #202436 !important;
-  color: #ffffff !important;
-  border-color: rgba(255,255,255,.18) !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #b8beca !important;
-}
-
-.tool {
-  background: #1b1f2d !important;
-  color: #f3f4f6 !important;
-  border-color: rgba(255,255,255,.14) !important;
-}
-
-.tool::after {
-  opacity: .25 !important;
-}
-
-.tool strong {
-  color: #ffffff !important;
-}
-
-.tool span {
-  color: #cbd5e1 !important;
-  opacity: 1 !important;
-}
-
-.tool.active {
-  background: linear-gradient(135deg, #ff6a00, #ff8a2a) !important;
-  color: #111111 !important;
-  border-color: rgba(255,138,42,.85) !important;
-}
-
-.tool.active strong,
-.tool.active span {
-  color: #111111 !important;
-}
-
-.tool.good.active {
-  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
-}
-
-.active-desc {
-  background: linear-gradient(90deg, rgba(255,106,0,.18), rgba(255,255,255,.04)) !important;
-  border-top-color: rgba(255,255,255,.12) !important;
-  border-right-color: rgba(255,255,255,.12) !important;
-  border-bottom-color: rgba(255,255,255,.12) !important;
-}
-
-.active-title {
-  color: #ffffff !important;
-}
-
-.output {
-  background:
-    radial-gradient(circle at top right, rgba(255,106,0,.12), transparent 34%),
-    #171923 !important;
-  color: #f8fafc !important;
-  border-color: rgba(255,255,255,.14) !important;
-}
-
-.copy {
-  background: #202436 !important;
-  border-color: rgba(255,255,255,.16) !important;
-  color: #ffffff !important;
-}
-"""
-
-marker = "/* === V2.1 BRIGHTNESS PATCH === */"
-
-if marker in s:
-    before = s.split(marker)[0]
-    after = s.split("</style>", 1)[1]
-    s = before + patch + "\n</style>" + after
-else:
-    s = s.replace("</style>", patch + "\n</style>")
-
-p.write_text(s)
-PY
-
-git add index.html
-git commit -m "improve mobile brightness and contrast"
-git push<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CreatorPilot AI</title>
-
-  <style>
-cat > index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Content Strategy Kit</title>
-
+  <title>CreatorPilot AI</title>
+  <meta name="theme-color" content="#0b0b10" />
   <style>
-    :root {
-      --bg: #09090d;
-      --panel: #12121a;
-      --panel2: #191927;
-      --border: rgba(255,255,255,.08);
-      --text: #f4f4f5;
-      --muted: #9ca3af;
-      --soft: #d4d4d8;
-      --orange: #ff6a00;
-      --orange2: #ff8a2a;
-      --green: #1f7a3a;
-      --green2: #23c55e;
-      --red: #ef4444;
-      --radius: 22px;
+    :root{
+      --bg:#0b0b10;
+      --bg-2:#11131a;
+      --panel:#141722;
+      --panel-2:#1a1f2d;
+      --stroke:rgba(255,255,255,.08);
+      --soft-stroke:rgba(255,255,255,.05);
+      --text:#f5f7fb;
+      --muted:#a3acbf;
+      --muted-2:#7c8598;
+      --gold:#d6ad58;
+      --gold-2:#f3c970;
+      --green:#1ec972;
+      --orange:#ff7b2c;
+      --red:#ff5f6d;
+      --shadow:0 18px 60px rgba(0,0,0,.35);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:12px;
+      --max:820px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text)}
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:
-        radial-gradient(circle at top, rgba(255,106,0,.16), transparent 28%),
-        linear-gradient(180deg, #120905 0%, #08080c 28%, #09090d 100%);
-      color: var(--text);
-      font-family: Georgia, "Times New Roman", serif;
+        radial-gradient(circle at top left, rgba(214,173,88,.14), transparent 26%),
+        radial-gradient(circle at top right, rgba(255,123,44,.10), transparent 24%),
+        linear-gradient(180deg, #0b0b10 0%, #0d1018 48%, #0b0b10 100%);
+      min-height:100vh;
     }
 
-    button, input, textarea, select {
-      font: inherit;
+    .app{
+      width:min(var(--max), 100%);
+      margin:0 auto;
+      padding:18px 16px 32px;
     }
 
-    .app {
-      width: min(760px, 100%);
-      margin: 0 auto;
-      padding: 28px 18px 60px;
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      padding:10px 0 14px;
+      backdrop-filter: blur(14px);
+      background:linear-gradient(180deg, rgba(11,11,16,.92), rgba(11,11,16,.72), transparent);
     }
 
-    .hero {
-      padding: 26px 0 24px;
-      border-bottom: 1px solid rgba(255,106,0,.18);
-      margin-bottom: 24px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:10px 12px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--soft-stroke);
+      border-radius:20px;
+      box-shadow:var(--shadow);
     }
 
-    .kicker {
-      letter-spacing: .55em;
-      color: #e5794f;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 12px;
+    .logo{
+      width:48px;height:48px;border-radius:16px;
+      display:grid;place-items:center;
+      font-weight:900;
+      font-size:22px;
+      color:#121212;
+      background:linear-gradient(135deg,var(--gold-2),var(--gold));
+      box-shadow:0 10px 30px rgba(214,173,88,.25);
+      flex:0 0 auto;
     }
 
-    .title-row {
-      display: flex;
-      gap: 14px;
-      align-items: center;
+    .brand-text h1{
+      margin:0;
+      font-size:22px;
+      line-height:1.05;
+      letter-spacing:-.03em;
     }
 
-    .app-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: #0e1017;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 0 30px rgba(255,106,0,.12);
-      font-size: 22px;
+    .brand-text p{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:13px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(34px, 8vw, 58px);
-      line-height: .98;
-      letter-spacing: -.04em;
-      max-width: 680px;
-    }
-
-    .sub {
-      margin-top: 14px;
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      letter-spacing: .12em;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .panel {
-      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015)), var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
-      box-shadow: 0 22px 80px rgba(0,0,0,.35);
-      margin-bottom: 22px;
-    }
-
-    .label {
-      color: #f08a63;
-      letter-spacing: .42em;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,.09);
-      background: #171725;
-      color: var(--text);
-      border-radius: 14px;
-      padding: 15px 16px;
-      outline: none;
-      font-size: 18px;
-    }
-
-    textarea {
-      min-height: 96px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: rgba(255,106,0,.55);
-      box-shadow: 0 0 0 4px rgba(255,106,0,.09);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .tool {
-      position: relative;
-      min-height: 104px;
-      border: 1px solid var(--border);
-      background: #11111a;
-      color: var(--muted);
-      border-radius: 16px;
-      padding: 14px 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: .18s ease;
-      overflow: hidden;
-    }
-
-    .tool::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top right, rgba(255,255,255,.08), transparent 35%);
-      pointer-events: none;
-      opacity: .7;
-    }
-
-    .tool:hover {
-      transform: translateY(-1px);
-      border-color: rgba(255,106,0,.32);
-    }
-
-    .tool.active {
-      background: linear-gradient(135deg, rgba(255,106,0,.95), rgba(220,75,0,.85));
-      color: white;
-      border-color: rgba(255,106,0,.8);
-      box-shadow: 0 18px 48px rgba(255,106,0,.18);
-    }
-
-    .tool.good {
-      background: linear-gradient(135deg, rgba(31,122,58,.75), rgba(15,67,34,.85));
-      border-color: rgba(35,197,94,.42);
-      color: #dbffe8;
-    }
-
-    .tool.good.active {
-      background: linear-gradient(135deg, rgba(35,197,94,.95), rgba(31,122,58,.95));
-      color: #07140b;
-    }
-
-    .emoji {
-      display: block;
-      font-size: 24px;
-      margin-bottom: 9px;
-    }
-
-    .tool strong {
-      display: block;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      letter-spacing: .04em;
-    }
-
-    .tool span {
-      display: block;
-      margin-top: 5px;
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      line-height: 1.35;
-      opacity: .8;
-    }
-
-    .active-desc {
-      border-left: 4px solid var(--orange);
-      background: linear-gradient(90deg, rgba(255,106,0,.12), rgba(255,255,255,.02));
-      padding: 18px 18px 18px 20px;
-      border-radius: 0 18px 18px 0;
-      margin-top: 22px;
-      border-top: 1px solid rgba(255,255,255,.06);
-      border-right: 1px solid rgba(255,255,255,.06);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .active-title {
-      margin: 0 0 8px;
-      font-size: 23px;
-      line-height: 1.2;
-      letter-spacing: -.02em;
-    }
-
-    .active-text {
-      margin: 0;
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      line-height: 1.65;
-      font-size: 15px;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .generate {
-      border: 0;
-      background: linear-gradient(135deg, #ff6a00, #ff8a2a);
-      color: #101010;
-      border-radius: 16px;
-      padding: 17px 18px;
-      font-weight: 900;
-      cursor: pointer;
-      font-size: 19px;
-      box-shadow: 0 18px 45px rgba(255,106,0,.22);
-    }
-
-    .copy {
-      border: 1px solid var(--border);
-      background: #181821;
-      color: var(--text);
-      border-radius: 16px;
-      padding: 15px 18px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .output {
-      min-height: 340px;
+    .hero{
+      margin-top:16px;
       background:
-        radial-gradient(circle at top right, rgba(255,106,0,.09), transparent 32%),
-        #0e0e15;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 22px;
-      white-space: pre-wrap;
-      color: #ededed;
-      line-height: 1.7;
-      font-family: Arial, sans-serif;
-      font-size: 15px;
+        radial-gradient(circle at 85% 20%, rgba(214,173,88,.16), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+        var(--panel);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius-xl);
+      padding:22px 18px 18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
 
-    .loading {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: #f4f4f5;
-      font-size: 18px;
-      font-weight: 800;
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(214,173,88,.22);
+      color:var(--gold-2);
+      background:rgba(214,173,88,.08);
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:16px;
     }
 
-    .spinner {
-      width: 25px;
-      height: 25px;
-      border: 3px solid rgba(255,255,255,.15);
-      border-top-color: var(--orange);
-      border-radius: 50%;
-      animation: spin .85s linear infinite;
+    .hero h2{
+      margin:0;
+      font-size:clamp(34px, 8vw, 56px);
+      line-height:.97;
+      letter-spacing:-.05em;
+      max-width:680px;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    .hero p{
+      margin:16px 0 0;
+      color:#d6dbe7;
+      font-size:18px;
+      line-height:1.72;
+      max-width:680px;
     }
 
-    .mini {
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      margin-top: 12px;
-      line-height: 1.6;
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:20px;
     }
 
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%) translateY(20px);
-      opacity: 0;
-      transition: .18s ease;
-      background: #181821;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 12px 16px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
+    button{
+      border:0;
+      cursor:pointer;
+      font:inherit;
+      transition:.18s ease;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .btn-primary{
+      background:linear-gradient(135deg,var(--gold-2),var(--gold));
+      color:#111;
+      font-weight:900;
+      padding:15px 20px;
+      border-radius:18px;
+      box-shadow:0 16px 38px rgba(214,173,88,.24);
     }
 
-    @media (min-width: 640px) {
-      .grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
+    .btn-primary:hover{transform:translateY(-1px)}
 
-      .actions {
-        grid-template-columns: 1fr auto;
-      }
+    .btn-secondary{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--stroke);
+      color:var(--text);
+      font-weight:700;
+      padding:15px 18px;
+      border-radius:18px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:20px;
+    }
+
+    .stat{
+      background:rgba(255,255,255,.025);
+      border:1px solid var(--soft-stroke);
+      border-radius:18px;
+      padding:16px 14px;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:28px;
+      letter-spacing:-.04em;
+    }
+
+    .stat span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .workspace{
+      margin-top:18px;
+      display:grid;
+      gap:16px;
+    }
+
+    .panel{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
+        var(--panel);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius-xl);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .panel-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .panel-title h3{
+      margin:0;
+      font-size:24px;
+      letter-spacing:-.03em;
+    }
+
+    .panel-title .mini{
+      color:var(--muted-2);
+      font-size:12px;
+      font-weight:700;
+      padding:8px 10px;
+      border:1px solid var(--soft-stroke);
+      border-radius:999px;
+      background:rgba(255,255,255,.03);
+    }
+
+    .field{
+      margin-bottom:14px;
+    }
+
+    .field label{
+      display:block;
+      color:var(--gold-2);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    input,textarea,select{
+      width:100%;
+      background:var(--panel-2);
+      border:1px solid rgba(255,255,255,.1);
+      color:var(--text);
+      border-radius:16px;
+      padding:16px;
+      outline:none;
+      font:inherit;
+      transition:.18s ease;
+    }
+
+    input::placeholder, textarea::placeholder{color:#8f98ab}
+    input:focus, textarea:focus, select:focus{
+      border-color:rgba(214,173,88,.45);
+      box-shadow:0 0 0 4px rgba(214,173,88,.08);
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+      line-height:1.6;
+    }
+
+    .two-col{
+      display:grid;
+      gap:12px;
+    }
+
+    .mode-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:4px;
+    }
+
+    .mode{
+      position:relative;
+      border:1px solid var(--stroke);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,.06), transparent 30%),
+        #131824;
+      color:var(--text);
+      border-radius:20px;
+      padding:16px 12px;
+      min-height:110px;
+      text-align:left;
+      overflow:hidden;
+    }
+
+    .mode.active{
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,.14), transparent 35%),
+        linear-gradient(135deg, rgba(214,173,88,.96), rgba(255,123,44,.95));
+      color:#111;
+      border-color:transparent;
+      box-shadow:0 16px 40px rgba(214,173,88,.18);
+    }
+
+    .mode .icon{
+      font-size:20px;
+      display:inline-flex;
+      margin-bottom:10px;
+    }
+
+    .mode strong{
+      display:block;
+      font-size:18px;
+      letter-spacing:-.02em;
+    }
+
+    .mode span{
+      display:block;
+      margin-top:6px;
+      font-size:13px;
+      line-height:1.45;
+      color:#b9c1d0;
+    }
+
+    .mode.active span{color:#1b1b1b}
+
+    .active-box{
+      margin-top:16px;
+      border-radius:20px;
+      padding:18px;
+      background:
+        linear-gradient(90deg, rgba(214,173,88,.14), rgba(255,255,255,.02)),
+        #121620;
+      border:1px solid var(--stroke);
+      border-left:4px solid var(--gold);
+    }
+
+    .active-box h4{
+      margin:0 0 8px;
+      font-size:22px;
+      letter-spacing:-.03em;
+    }
+
+    .active-box p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:15px;
+    }
+
+    .action-row{
+      display:grid;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .btn-generate{
+      width:100%;
+      background:linear-gradient(135deg,var(--gold-2),var(--gold));
+      color:#111;
+      border-radius:18px;
+      padding:17px 18px;
+      font-weight:900;
+      font-size:17px;
+      box-shadow:0 16px 34px rgba(214,173,88,.24);
+    }
+
+    .btn-ghost{
+      width:100%;
+      background:#1a1f2d;
+      color:var(--text);
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      padding:15px 16px;
+      font-weight:800;
+    }
+
+    .output-shell{
+      position:relative;
+    }
+
+    .output{
+      min-height:340px;
+      border-radius:24px;
+      border:1px solid var(--stroke);
+      background:
+        radial-gradient(circle at top right, rgba(214,173,88,.10), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+        #10141d;
+      padding:20px;
+      white-space:pre-wrap;
+      line-height:1.72;
+      font-size:15px;
+      color:#eef2f9;
+      overflow:auto;
+    }
+
+    .loading{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:#fff;
+      font-weight:800;
+      font-size:18px;
+    }
+
+    .spinner{
+      width:22px;height:22px;
+      border-radius:50%;
+      border:3px solid rgba(255,255,255,.16);
+      border-top-color:var(--gold-2);
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .hint{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%) translateY(16px);
+      background:#171c28;
+      color:#fff;
+      border:1px solid var(--stroke);
+      border-radius:999px;
+      padding:12px 16px;
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition:.18s ease;
+      z-index:50;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .footer-note{
+      margin-top:18px;
+      color:var(--muted-2);
+      text-align:center;
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    @media (min-width: 720px){
+      .app{padding:22px 20px 40px}
+      .two-col{grid-template-columns:1fr 1fr}
+      .mode-grid{grid-template-columns:repeat(4,1fr)}
+      .action-row{grid-template-columns:1fr 180px}
     }
   </style>
 </head>
-
 <body>
-  <main class="app">
-    <header class="hero">
-      <div class="kicker">AI CONTENT STRATEGY KIT</div>
-
-      <div class="title-row">
-        <div class="app-icon">📱</div>
-        <h1>Creator, UMKM & Personal Brand</h1>
-      </div>
-
-      <div class="sub">
-        @creatorpilot · dummy mode → target: konten lebih tajam 🎯
-      </div>
-    </header>
-
-    <section class="panel">
-      <div class="label">Topik spesifik</div>
-      <textarea id="topic" placeholder="Contoh: Kenapa coffee shop kecil harus punya cerita, bukan cuma menu?"></textarea>
-
-      <div style="height:14px"></div>
-
-      <div class="label">Konteks audiens</div>
-      <input id="audience" placeholder="Contoh: anak muda, UMKM, creator pemula, calon pembeli" />
-    </section>
-
-    <section class="panel">
-      <div class="label">Pilih mode</div>
-
-      <div class="grid">
-        <button class="tool good active" data-mode="ide">
-          <span class="emoji">💡</span>
-          <strong>Ide</strong>
-          <span>Angle konten yang tidak generik</span>
-        </button>
-
-        <button class="tool" data-mode="caption">
-          <span class="emoji">✍️</span>
-          <strong>Caption</strong>
-          <span>Hook, cerita, CTA</span>
-        </button>
-
-        <button class="tool" data-mode="auto">
-          <span class="emoji">🤖</span>
-          <strong>Auto</strong>
-          <span>Paket konten lengkap</span>
-        </button>
-
-        <button class="tool" data-mode="growth">
-          <span class="emoji">📈</span>
-          <strong>Growth</strong>
-          <span>Strategi naik audiens</span>
-        </button>
-
-        <button class="tool" data-mode="hook">
-          <span class="emoji">🎯</span>
-          <strong>Hook</strong>
-          <span>Stop scroll 3 detik</span>
-        </button>
-
-        <button class="tool" data-mode="repurpose">
-          <span class="emoji">♻️</span>
-          <strong>Repurpose</strong>
-          <span>1 ide jadi banyak format</span>
-        </button>
-
-        <button class="tool" data-mode="engage">
-          <span class="emoji">🚀</span>
-          <strong>Engage</strong>
-          <span>Komentar, save, share</span>
-        </button>
-      </div>
-
-      <div class="active-desc">
-        <h2 id="modeTitle" class="active-title">💡 Ide — Ide Konten Tajam</h2>
-        <p id="modeDesc" class="active-text">
-          Buat ide konten dengan angle spesifik, alasan orang berhenti scroll, potensi save/share, dan risiko gagal.
-        </p>
-      </div>
-
-      <div class="actions">
-        <button class="generate" onclick="generate()">AI sedang analisis & generate...</button>
-        <button class="copy" onclick="copyOutput()">Copy Output</button>
-      </div>
-
-      <p class="mini">
-        Mode dummy aktif. Belum tersambung API, tapi alur dan UI sudah bisa dipakai.
-      </p>
-    </section>
-
-    <section class="panel">
-      <div class="label">Hasil strategi</div>
-      <div id="output" class="output">Pilih mode, isi topik, lalu klik generate.</div>
-    </section>
-  </main>
-
-  <div id="toast" class="toast">Output berhasil disalin.</div>
-
-  <script>
-    let selectedMode = "ide";
-
-    const modeInfo = {
-      ide: {
-        title: "💡 Ide — Ide Konten Tajam",
-        desc: "Buat ide konten dengan angle spesifik, alasan orang berhenti scroll, potensi save/share, dan risiko gagal."
-      },
-      caption: {
-        title: "✍️ Caption — Caption yang Nggak Hambar",
-        desc: "Buat caption dengan hook awal, mini story, reframing, dan CTA natural."
-      },
-      auto: {
-        title: "🤖 Auto — Paket Konten Lengkap",
-        desc: "Ubah satu premis jadi hook, struktur konten, caption, CTA, dan kritik risiko gagal."
-      },
-      growth: {
-        title: "📈 Growth — Rencana Tumbuh",
-        desc: "Susun strategi konten, pilar, jadwal, dan cara membaca sinyal konten menang."
-      },
-      hook: {
-        title: "🎯 Hook — Stop Scroll",
-        desc: "Buat variasi hook yang kuat untuk 3 detik pertama."
-      },
-      repurpose: {
-        title: "♻️ Repurpose — 1 Ide Banyak Format",
-        desc: "Ubah satu ide jadi carousel, video pendek, caption, story, dan quote."
-      },
-      engage: {
-        title: "🚀 Engage — Komentar, Save, Share",
-        desc: "Buat CTA, pertanyaan, dan sistem engagement yang terasa natural."
-      }
-    };
-
-    document.querySelectorAll(".tool").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tool").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        selectedMode = btn.dataset.mode;
-        document.getElementById("modeTitle").textContent = modeInfo[selectedMode].title;
-        document.getElementById("modeDesc").textContent = modeInfo[selectedMode].desc;
-      });
-    });
-
-    function ctx() {
-      return {
-        topic: document.getElementById("topic").value.trim() || "cara membuat konten yang lebih tajam dan tidak generik",
-        audience: document.getElementById("audience").value.trim() || "creator, UMKM, dan personal brand"
-      };
-    }
-
-    function generate() {
-      const output = document.getElementById("output");
-      output.innerHTML = '<div class="loading"><span class="spinner"></span>AI sedang analisis & generate...</div>';
-
-      setTimeout(() => {
-        const c = ctx();
-        output.textContent = makeOutput(selectedMode, c);
-      }, 700);
-    }
-
-    function makeOutput(mode, c) {
-      if (mode === "ide") {
-        return `💡 IDE KONTEN
-
-Topik:
-${c.topic}
-
-Target:
-${c.audience}
-
-1. Hook:
-"Konten kamu bukan gagal karena jelek. Bisa jadi karena terlalu aman."
-
-Angle:
-Bukan menyalahkan algoritma, tapi membongkar kenapa pesan konten tidak cukup tajam.
-
-Kenapa orang berhenti scroll:
-Karena banyak creator dan UMKM merasa sudah rajin posting, tapi hasilnya tetap datar.
-
-Save/share potential:
-Tinggi. Bisa dibuat sebagai checklist evaluasi konten.
-
-Format:
-Carousel 6 slide atau video 45 detik.
-
-Risiko gagal:
-Kalau terlalu umum, konten terasa seperti nasihat creator biasa. Harus pakai contoh nyata.`;
-      }
-
-      if (mode === "caption") {
-        return `✍️ CAPTION
-
-Konten yang bagus bukan cuma yang terlihat rapi.
-
-Konten yang kuat membuat orang merasa:
-"Ini masalah gue."
-"Ini yang selama ini gue bingung."
-"Ini perlu gue simpan."
-
-Kalau konten kamu belum jalan, jangan langsung salahkan algoritma.
-
-Cek dulu:
-apakah pesanmu cukup spesifik untuk orang yang kamu tuju?
-
-CTA:
-Simpan sebelum bikin konten berikutnya.
-
-Topik:
-${c.topic}`;
-      }
-
-      if (mode === "auto") {
-        return `🤖 PAKET KONTEN LENGKAP
-
-Premis:
-${c.topic}
-
-1. Audit:
-Premis ini kuat kalau diarahkan ke masalah spesifik, bukan tips umum.
-
-2. Luka audiens:
-Sudah rajin posting, tapi konten tetap terasa tidak bergerak.
-
-3. Common belief yang dilawan:
-"Yang penting konsisten posting."
-
-4. Reframe:
-Konsisten itu penting. Tapi kalau pesannya kabur, kamu cuma konsisten membuat konten yang dilewati.
-
-5. Hook utama:
-KONTEN KAMU BUKAN KURANG BANYAK.
-MUNGKIN KURANG TAJAM.
-
-6. Carousel:
-Slide 1: Hook besar
-Slide 2: Masalah umum
-Slide 3: Kesalahan cara berpikir
-Slide 4: Contoh angle lemah vs tajam
-Slide 5: Checklist sebelum posting
-Slide 6: CTA save
-
-7. Caption:
-Jangan cuma bikin konten lebih banyak. Bikin konten yang lebih punya alasan untuk disimpan.
-
-8. Risiko gagal:
-Bahasa terlalu abstrak. Harus diberi contoh nyata.`;
-      }
-
-      if (mode === "growth") {
-        return `📈 GROWTH PLAN
-
-Target:
-${c.audience}
-
-7 hari eksperimen konten:
-
-Hari 1:
-Konten problem awareness.
-Topik: masalah terbesar audiens.
-
-Hari 2:
-Konten checklist.
-Tujuan: save.
-
-Hari 3:
-Konten opini tajam.
-Tujuan: komentar.
-
-Hari 4:
-Konten studi kasus.
-Tujuan: trust.
-
-Hari 5:
-Konten mitos vs realita.
-Tujuan: share.
-
-Hari 6:
-Konten soft selling.
-Tujuan: conversion.
-
-Hari 7:
-Repurpose konten terbaik minggu ini.
-
-Metrik utama:
-- retention
-- save
-- share
-- komentar
-- profile visit`;
-      }
-
-      if (mode === "hook") {
-        return `🎯 HOOK
-
-Topik:
-${c.topic}
-
-1. "Konten kamu bukan gagal karena jelek. Bisa jadi karena terlalu aman."
-2. "Kalau kontenmu sering dilewati, cek kalimat pertamanya."
-3. "Jangan mulai dari apa yang ingin kamu bahas. Mulai dari masalah yang audiens rasakan."
-4. "Orang tidak share konten karena rapi. Mereka share karena merasa dipahami."
-5. "Konsisten posting tidak cukup kalau angle-nya lemah."
-6. "Produk bagus tetap bisa sepi kalau pesannya tidak jelas."
-7. "Sebelum bikin konten, tanya: ini penting buat siapa?"
-8. "Konten yang tajam biasanya mulai dari luka yang spesifik."`;
-      }
-
-      if (mode === "repurpose") {
-        return `♻️ REPURPOSE
-
-Satu topik:
-${c.topic}
-
-1. Carousel:
-"5 alasan konten kamu belum menarik perhatian"
-
-2. Video pendek:
-Hook: "Konten kamu bukan jelek. Pesannya saja belum cukup tajam."
-
-3. Story:
-Frame 1: Konten sepi?
-Frame 2: Cek angle, bukan cuma desain.
-Frame 3: Mau template evaluasinya?
-
-4. Caption:
-Bahas kenapa creator sering terlalu fokus ke tampilan, bukan sudut pandang.
-
-5. Quote:
-"Konten yang kuat bukan cuma memberi informasi. Ia membuat orang merasa dipahami."
-
-6. Thread:
-Breakdown 5 cara membuat angle konten lebih spesifik.`;
-      }
-
-      return `🚀 ENGAGEMENT SYSTEM
-
-Target:
-${c.audience}
-
-CTA komentar:
-1. "Menurut kamu, konten yang bagus itu harus rapi atau harus tajam?"
-2. "Bagian mana yang paling sering bikin kamu stuck?"
-3. "Kamu lebih susah bikin hook atau caption?"
-4. "Kalau mau, aku bisa bikin versi checklist-nya."
-5. "Pernah merasa sudah rajin posting tapi tetap sepi?"
-
-CTA save:
-- Simpan sebelum bikin konten berikutnya.
-- Pakai ini sebagai checklist sebelum upload.
-- Save kalau kamu sedang bangun personal brand.
-
-Cara balas komentar:
-Komentar panjang → jadikan konten baru.
-Komentar bingung → jadikan carousel edukasi.
-Komentar setuju → minta mereka cerita pengalaman.`;
-    }
-
-    function copyOutput() {
-      const text = document.getElementById("output").textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const toast = document.getElementById("toast");
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 1500);
-      });
-    }
-  </script>
-</body>
-</html>
-EOF
-
-git add index.html
-git commit -m "update design v2"
-git push
-      --bg: #070707;
-      --panel: #101010;
-      --panel-2: #151515;
-      --border: rgba(255,     --gold: #c9a84c;
-      --gold-soft: rgba(201, 168, 76, 0.14);
-      --danger: #ff6b6b;
-      --radius: 24px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top left, rgba(201, 168, 76, 0.16), transparent 28%),
-        radial-gradient(circle at top right, rgba(255, 255, 255, 0.06), transparent 25%),
-        var(--bg);
-      color: var(--text);
-      font-family: Inter, Arial, Helvetica, sans-serif;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    .app {
-      width: min(1180px, 100%);
-      margin: 0 auto;
-      padding: 22px 16px 60px;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 0 28px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background:
-        linear-gradient(135deg, rgba(201, 168, 76, 0.95), rgba(122, 94, 32, 0.9));
-      display: grid;
-      place-items: center;
-      color: #080808;
-      font-weight: 900;
-      letter-spacing: -0.08em;
-      box-shadow: 0 0 40px rgba(201, 168, 76, 0.18);
-    }
-
-    .brand-title {
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      font-size: 18px;
-    }
-
-    .brand-subtitle {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 2px;
-    }
-
-    .status {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      padding: 10px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 16px rgba(201, 168, 76, 0.8);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .hero-card {
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02)),
-        var(--panel);
-      border-radius: var(--radius);
-      padding: 24px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-card::after {
-      content: "";
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      right: -80px;
-      top: -70px;
-      background: radial-gradient(circle, rgba(201,168,76,0.25), transparent 68%);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--gold);
-      background: var(--gold-soft);
-      border: 1px solid rgba(201, 168, 76, 0.24);
-      padding: 8px 11px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(34px, 8vw, 72px);
-      line-height: 0.95;
-      letter-spacing: -0.07em;
-      max-width: 760px;
-    }
-
-    .hero p {
-      color: var(--soft);
-      line-height: 1.7;
-      max-width: 650px;
-      margin: 18px 0 0;
-      font-size: 15px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .primary-btn,
-    .secondary-btn,
-    .ghost-btn {
-      border: 0;
-      cursor: pointer;
-      border-radius: 14px;
-      padding: 13px 15px;
-      font-weight: 800;
-    }
-
-    .primary-btn {
-      background: var(--gold);
-      color: #090909;
-      box-shadow: 0 12px 34px rgba(201, 168, 76, 0.18);
-    }
-
-    .secondary-btn {
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .ghost-btn {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 24px;
-    }
-
-    .stat {
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.18);
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 20px;
-      letter-spacing: -0.04em;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .workspace {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-
-    .panel {
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
-        var(--panel);
-      border-radius: var(--radius);
-      padding: 18px;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .panel-title {
-      font-size: 17px;
-      font-weight: 850;
-      letter-spacing: -0.03em;
-    }
-
-    .panel-desc {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 13px;
-    }
-
-    label {
-      display: block;
-      color: var(--soft);
-      font-size: 13px;
-      font-weight: 750;
-      margin-bottom: 8px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid var(--border);
-      background: #0b0b0b;
-      color: var(--text);
-      border-radius: 15px;
-      padding: 14px;
-      outline: none;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.6;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(201, 168, 76, 0.55);
-      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.08);
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    .feature {
-      border: 1px solid var(--border);
-      background: #0b0b0b;
-      border-radius: 18px;
-      padding: 15px;
-      text-align: left;
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
-
-    .feature:hover {
-      transform: translateY(-1px);
-      border-color: rgba(201, 168, 76, 0.35);
-    }
-
-    .feature.active {
-      border-color: rgba(201, 168, 76, 0.65);
-      background: linear-gradient(135deg, rgba(201,168,76,0.16), rgba(255,255,255,0.03));
-    }
-
-    .feature strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    .feature span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .generate-wrap {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .output-box {
-      min-height: 520px;
-      border: 1px solid var(--border);
-      background:
-        linear-gradient(180deg, rgba(201,168,76,0.06), transparent 23%),
-        #090909;
-      border-radius: 20px;
-      padding: 18px;
-      white-space: pre-wrap;
-      line-height: 1.65;
-      color: #ededed;
-      overflow: auto;
-      font-size: 14px;
-    }
-
-    .output-toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .mini-tag {
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted);
-      border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .footer-note {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: 12px;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%) translateY(20px);
-      opacity: 0;
-      pointer-events: none;
-      background: #171717;
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 12px 14px;
-      border-radius: 999px;
-      transition: 0.2s ease;
-      font-size: 13px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    @media (min-width: 760px) {
-      .status {
-        display: inline-flex;
-      }
-
-      .hero-card {
-        padding: 38px;
-      }
-
-      .workspace {
-        grid-template-columns: 0.9fr 1.1fr;
-        align-items: start;
-      }
-
-      .features {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .form-grid.two {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .generate-wrap {
-        grid-template-columns: 1fr auto;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <main class="app">
-    <nav class="nav">
+  <div class="app">
+    <div class="topbar">
       <div class="brand">
         <div class="logo">CP</div>
-        <div>
-          <div class="brand-title">CreatorPilot AI</div>
-          <div class="brand-subtitle">Premium Content Workspace</div>
+        <div class="brand-text">
+          <h1>CreatorPilot AI</h1>
+          <p>Premium Content Workspace</p>
         </div>
       </div>
-
-      <div class="status">
-        <span class="dot"></span>
-        Dummy Mode · No API
-      </div>
-    </nav>
+    </div>
 
     <section class="hero">
-      <div class="hero-card">
-        <div class="eyebrow">Untuk creator, UMKM, dan personal brand</div>
-        <h1>Buat konten yang lebih tajam, bukan sekadar lebih banyak.</h1>
-        <p>
-          Ruang kerja AI untuk menyusun ide, hook, caption, script, carousel,
-          kalender konten, repurpose, dan audit growth dalam satu tempat.
-        </p>
+      <div class="badge">Untuk creator, UMKM, dan personal brand</div>
+      <h2>Buat konten yang lebih tajam, bukan sekadar lebih banyak.</h2>
+      <p>
+        Ruang kerja AI untuk menyusun ide, hook, caption, carousel, kalender konten,
+        repurpose, dan audit growth dalam satu tempat.
+      </p>
 
-        <div class="hero-actions">
-          <button class="primary-btn" onclick="scrollToWorkspace()">Mulai buat konten</button>
-          <button class="secondary-btn" onclick="loadExample()">Pakai contoh</button>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToWorkspace()">Mulai buat konten</button>
+        <button class="btn-secondary" onclick="fillExample()">Pakai contoh</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>8</strong>
+          <span>mode kerja konten</span>
         </div>
-
-        <div class="stats">
-          <div class="stat">
-            <strong>8</strong>
-            <span>mode kerja konten</span>
-          </div>
-          <div class="stat">
-            <strong>1</strong>
-            <span>workspace ringkas</span>
-          </div>
-          <div class="stat">
-            <strong>0</strong>
-            <span>API dibutuhkan sekarang</span>
-          </div>
+        <div class="stat">
+          <strong>1</strong>
+          <span>workspace ringkas</span>
+        </div>
+        <div class="stat">
+          <strong>0</strong>
+          <span>API dibutuhkan sekarang</span>
         </div>
       </div>
     </section>
 
     <section class="workspace" id="workspace">
       <div class="panel">
-        <div class="panel-header">
-          <div>
-            <div class="panel-title">Input Strategi</div>
-            <div class="panel-desc">
-              Isi konteks agar output terasa spesifik, bukan generik.
-            </div>
-          </div>
-          <span class="mini-tag">v1 dummy</span>
+        <div class="panel-title">
+          <h3>Input Strategi</h3>
+          <div class="mini">v1 dummy</div>
         </div>
 
-        <div class="form-grid two">
-          <div>
-            <label for="niche">Niche</label>
-            <input id="niche" placeholder="Contoh: skincare, kopi, edukasi AI, fitness" />
-          </div>
-
-          <div>
-            <label for="audience">Target audiens</label>
-            <input id="audience" placeholder="Contoh: pemula, mahasiswa, ibu muda" />
-          </div>
-        </div>
-
-        <br />
-
-        <div class="form-grid two">
-          <div>
-            <label for="goal">Tujuan konten</label>
-            <select id="goal">
-              <option value="Awareness">Awareness</option>
-              <option value="Engagement">Engagement</option>
-              <option value="Jualan">Jualan</option>
-              <option value="Edukasi">Edukasi</option>
-              <option value="Naik followers">Naik followers</option>
+        <div class="two-col">
+          <div class="field">
+            <label>Niche</label>
+            <select id="niche">
+              <option value="Creator & Personal Brand">Creator & Personal Brand</option>
+              <option value="UMKM & Bisnis Kecil">UMKM & Bisnis Kecil</option>
+              <option value="AI & Productivity">AI & Productivity</option>
+              <option value="Mindset & Growth">Mindset & Growth</option>
+              <option value="Relationship">Relationship</option>
+              <option value="Storytelling">Storytelling</option>
             </select>
           </div>
 
-          <div>
-            <label for="tone">Tone</label>
-            <select id="tone">
-              <option value="Premium dan tajam">Premium dan tajam</option>
-              <option value="Santai dan dekat">Santai dan dekat</option>
-              <option value="Edukasi jelas">Edukasi jelas</option>
-              <option value="Emosional tapi tidak lebay">Emosional tapi tidak lebay</option>
-              <option value="Brutal dan direct">Brutal dan direct</option>
-            </select>
+          <div class="field">
+            <label>Target audiens</label>
+            <input id="audience" placeholder="Contoh: owner coffee shop, creator pemula, gen Z, buyer lokal" />
           </div>
         </div>
 
-        <br />
-
-        <div>
-          <label for="topic">Topik / premis</label>
-          <textarea id="topic" placeholder="Contoh: Kenapa konten jualan sering gagal walau produknya bagus?"></textarea>
+        <div class="field">
+          <label>Premis / topik utama</label>
+          <textarea id="topic" placeholder="Contoh: Kenapa banyak UMKM posting tiap hari tapi tetap tidak diingat orang?"></textarea>
         </div>
 
-        <br />
-
-        <div>
-          <label>Pilih mode kerja</label>
-          <div class="features">
-            <button class="feature active" data-mode="ideas">
-              <strong>Ide Konten</strong>
-              <span>Daftar ide dengan angle, alasan, dan risiko gagal.</span>
-            </button>
-
-            <button class="feature" data-mode="hook">
-              <strong>Hook</strong>
-              <span>Kalimat pembuka untuk stop-scroll 3 detik pertama.</span>
-            </button>
-
-            <button class="feature" data-mode="script">
-              <strong>Script Video</strong>
-              <span>Script pendek untuk Reels, TikTok, atau Shorts.</span>
-            </button>
-
-            <button class="feature" data-mode="caption">
-              <strong>Caption</strong>
-              <span>Caption yang tidak kaku dan punya CTA natural.</span>
-            </button>
-
-            <button class="feature" data-mode="carousel">
-              <strong>Carousel</strong>
-              <span>Struktur slide edukatif, emosional, atau jualan.</span>
-            </button>
-
-            <button class="feature" data-mode="calendar">
-              <strong>Kalender Konten</strong>
-              <span>Rencana konten beberapa hari ke depan.</span>
-            </button>
-
-            <button class="feature" data-mode="repurpose">
-              <strong>Repurpose</strong>
-              <span>Ubah satu ide jadi banyak format konten.</span>
-            </button>
-
-            <button class="feature" data-mode="audit">
-              <strong>Growth Audit</strong>
-              <span>Evaluasi hook, retention, share, save, dan risiko.</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="generate-wrap">
-          <button class="primary-btn" onclick="generateOutput()">Generate Output</button>
-          <button class="ghost-btn" onclick="clearAll()">Clear</button>
-        </div>
-
-        <div class="footer-note">
-          Ini masih dummy version. Setelah API siap, bagian output bisa disambungkan ke backend AI.
+        <div class="field">
+          <label>Konteks tambahan</label>
+          <textarea id="context" placeholder="Contoh: target konten untuk Instagram carousel, tone tajam tapi tetap ringan, ingin banyak save dan share."></textarea>
         </div>
       </div>
 
       <div class="panel">
-        <div class="panel-header">
-          <div>
-            <div class="panel-title">Output Workspace</div>
-            <div class="panel-desc">
-              Hasil akan muncul di sini. Bisa langsung disalin.
-            </div>
-          </div>
-
-          <div class="output-toolbar">
-            <button class="secondary-btn" onclick="copyOutput()">Copy</button>
-          </div>
+        <div class="panel-title">
+          <h3>Pilih Mode</h3>
+          <div class="mini">mobile-first</div>
         </div>
 
-        <div id="output" class="output-box">Pilih mode kerja, isi konteks, lalu klik Generate Output.</div>
+        <div class="mode-grid">
+          <button class="mode active" data-mode="ide">
+            <div class="icon">💡</div>
+            <strong>Ide</strong>
+            <span>Angle konten anti-generik</span>
+          </button>
+
+          <button class="mode" data-mode="hook">
+            <div class="icon">🎯</div>
+            <strong>Hook</strong>
+            <span>3 detik pertama</span>
+          </button>
+
+          <button class="mode" data-mode="caption">
+            <div class="icon">✍️</div>
+            <strong>Caption</strong>
+            <span>Hook, cerita, CTA</span>
+          </button>
+
+          <button class="mode" data-mode="auto">
+            <div class="icon">🤖</div>
+            <strong>Auto</strong>
+            <span>Paket konten lengkap</span>
+          </button>
+
+          <button class="mode" data-mode="carousel">
+            <div class="icon">🧩</div>
+            <strong>Carousel</strong>
+            <span>Susunan slide</span>
+          </button>
+
+          <button class="mode" data-mode="calendar">
+            <div class="icon">🗓️</div>
+            <strong>Calendar</strong>
+            <span>Rencana posting</span>
+          </button>
+
+          <button class="mode" data-mode="repurpose">
+            <div class="icon">♻️</div>
+            <strong>Repurpose</strong>
+            <span>1 ide jadi banyak format</span>
+          </button>
+
+          <button class="mode" data-mode="growth">
+            <div class="icon">📈</div>
+            <strong>Growth</strong>
+            <span>Evaluasi dan arah naik</span>
+          </button>
+        </div>
+
+        <div class="active-box">
+          <h4 id="modeTitle">💡 Ide — Ide Konten Tajam</h4>
+          <p id="modeDesc">
+            Membuat ide konten yang lebih spesifik, lebih saveable, dan lebih terasa
+            relevan untuk audiens yang kamu tuju.
+          </p>
+        </div>
+
+        <div class="action-row">
+          <button class="btn-generate" onclick="generateOutput()">Generate strategi</button>
+          <button class="btn-ghost" onclick="copyOutput()">Copy output</button>
+        </div>
+
+        <div class="hint">
+          Saat ini mode dummy aktif. UI sudah terasa seperti aplikasi, dan nanti bisa
+          disambungkan ke API tanpa ubah tampilan besar-besaran.
+        </div>
+      </div>
+
+      <div class="panel output-shell">
+        <div class="panel-title">
+          <h3>Hasil Output</h3>
+          <div class="mini">siap disalin</div>
+        </div>
+
+        <div class="output" id="output">
+Pilih mode, isi topik, lalu tekan "Generate strategi".
+        </div>
       </div>
     </section>
-  </main>
 
-  <div id="toast" class="toast">Output disalin.</div>
+    <div class="footer-note">
+      CreatorPilot AI · dummy prototype · dirancang untuk rasa aplikasi, bukan sekadar landing page.
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Output berhasil disalin.</div>
 
   <script>
-    let selectedMode = "ideas";
+    const modeInfo = {
+      ide: {
+        title: "💡 Ide — Ide Konten Tajam",
+        desc: "Membuat ide konten yang lebih spesifik, lebih saveable, dan lebih terasa relevan untuk audiens yang kamu tuju."
+      },
+      hook: {
+        title: "🎯 Hook — Stop Scroll",
+        desc: "Membuat pilihan hook yang lebih kuat untuk 3 detik pertama agar konten lebih sulit dilewati."
+      },
+      caption: {
+        title: "✍️ Caption — Narasi yang Nggak Hambar",
+        desc: "Menyusun caption dengan hook awal, inti cerita, reframing, dan CTA yang lebih natural."
+      },
+      auto: {
+        title: "🤖 Auto — Paket Konten Lengkap",
+        desc: "Mengubah satu premis menjadi hook, angle, susunan konten, caption, CTA, dan catatan risikonya."
+      },
+      carousel: {
+        title: "🧩 Carousel — Struktur Slide",
+        desc: "Membuat urutan slide yang lebih enak diikuti dan lebih tinggi peluang save/share-nya."
+      },
+      calendar: {
+        title: "🗓️ Calendar — Rencana Konten",
+        desc: "Membuat rencana beberapa hari ke depan agar konten terasa konsisten dan tetap punya variasi."
+      },
+      repurpose: {
+        title: "♻️ Repurpose — Satu Ide, Banyak Bentuk",
+        desc: "Mengembangkan satu ide menjadi banyak format supaya effort konten tidak terbuang."
+      },
+      growth: {
+        title: "📈 Growth — Arah Naik yang Lebih Jelas",
+        desc: "Mengevaluasi konten dari sisi save, share, komentar, dan positioning supaya tidak asal posting."
+      }
+    };
 
-    const featureButtons = document.querySelectorAll(".feature");
+    let activeMode = "ide";
 
-    featureButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        featureButtons.forEach((btn) => btn.classList.remove("active"));
-        button.classList.add("active");
-        selectedMode = button.dataset.mode;
+    document.querySelectorAll(".mode").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mode").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeMode = btn.dataset.mode;
+        document.getElementById("modeTitle").textContent = modeInfo[activeMode].title;
+        document.getElementById("modeDesc").textContent = modeInfo[activeMode].desc;
       });
     });
 
-    function getContext() {
+    function scrollToWorkspace() {
+      document.getElementById("workspace").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function fillExample() {
+      document.getElementById("niche").value = "UMKM & Bisnis Kecil";
+      document.getElementById("audience").value = "owner coffee shop kecil dan personal brand lokal";
+      document.getElementById("topic").value = "Kenapa banyak bisnis kecil posting tiap hari tapi tetap tidak diingat orang?";
+      document.getElementById("context").value = "Format untuk Instagram carousel. Mau tone tajam, premium, mudah dipahami, dan berpotensi tinggi untuk save/share.";
+      scrollToWorkspace();
+    }
+
+    function getData() {
       return {
-        niche: document.getElementById("niche").value.trim() || "creator / personal brand",
-        audience: document.getElementById("audience").value.trim() || "audiens umum yang butuh solusi praktis",
-        goal: document.getElementById("goal").value,
-        tone: document.getElementById("tone").value,
-        topic: document.getElementById("topic").value.trim() || "cara membuat konten yang lebih menarik dan tidak generik"
+        niche: document.getElementById("niche").value || "Creator & Personal Brand",
+        audience: document.getElementById("audience").value.trim() || "creator dan pelaku usaha kecil",
+        topic: document.getElementById("topic").value.trim() || "cara membuat konten yang lebih tajam dan tidak generik",
+        context: document.getElementById("context").value.trim() || "ingin output yang relevan, spesifik, dan gampang dipakai"
       };
     }
 
     function generateOutput() {
-      const ctx = getContext();
       const output = document.getElementById("output");
+      output.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          AI sedang menganalisis strategi...
+        </div>
+      `;
 
-      const generators = {
-        ideas: generateIdeas,
-        hook: generateHooks,
-        script: generateScript,
-        caption: generateCaption,
-        carousel: generateCarousel,
-        calendar: generateCalendar,
-        repurpose: generateRepurpose,
-        audit: generateAudit
-      };
-
-      output.textContent = generators[selectedMode](ctx);
+      setTimeout(() => {
+        const data = getData();
+        output.textContent = buildOutput(activeMode, data);
+      }, 900);
     }
 
-    function generateIdeas(ctx) {
-      return `MODE: IDE KONTEN
+    function buildOutput(mode, data) {
+      if (mode === "ide") {
+        return `IDE KONTEN TAJAM
 
-Konteks:
-- Niche: ${ctx.niche}
-- Target audiens: ${ctx.audience}
-- Tujuan: ${ctx.goal}
-- Tone: ${ctx.tone}
-- Topik: ${ctx.topic}
+NICHE:
+${data.niche}
 
-1. Ide:
-"Kesalahan kecil yang bikin konten kamu terlihat biasa saja"
+AUDIENS:
+${data.audience}
 
-Angle:
-Bukan menyalahkan algoritma, tapi membongkar kenapa pesan konten tidak cukup tajam.
+PREMIS:
+${data.topic}
 
-Kenapa orang berhenti scroll:
-Karena banyak creator merasa sudah rajin posting, tapi hasilnya tetap datar.
+ANGLE UTAMA:
+Banyak orang mengira konten sepi karena desain atau algoritma.
+Padahal sering kali masalah utamanya: pesannya tidak cukup tajam untuk diingat.
 
-Save/share potential:
-Tinggi, karena bisa dijadikan checklist evaluasi konten.
+HOOK UTAMA:
+"Konten kamu mungkin bukan kurang sering diposting.
+Kontenmu bisa jadi cuma belum cukup melekat."
 
-Risiko gagal:
-Kalau terlalu umum, konten akan terasa seperti nasihat creator biasa.
+KENAPA ORANG BERHENTI SCROLL:
+Karena masalah ini sangat umum:
+orang sudah rajin posting, tapi tetap merasa tidak punya dampak.
 
-2. Ide:
-"Produk bagus tidak cukup kalau orang tidak paham kenapa harus peduli"
+SAVE / SHARE POTENTIAL:
+Tinggi, karena bisa diposisikan sebagai bahan evaluasi sebelum posting.
 
-Angle:
-Menghubungkan produk dengan problem nyata audiens.
+FORMAT YANG DISARANKAN:
+- Carousel 6 slide
+- Single-image quote + caption tajam
+- Video pendek 30–45 detik
 
-Kenapa kuat:
-Cocok untuk UMKM dan personal brand yang sering hard selling.
+RISIKO GAGAL:
+Kalau bahasannya terlalu umum, audiens merasa ini cuma nasihat konten biasa.
+Solusinya: pakai contoh konkret dan bahasa yang lebih diagnosis-first.`;
+      }
 
-Format:
-Carousel 6 slide atau video 45 detik.
+      if (mode === "hook") {
+        return `HOOK OPTIONS
 
-3. Ide:
-"Jangan mulai dari apa yang ingin kamu jual. Mulai dari apa yang audiens takut kehilangan."
+TOPIK:
+${data.topic}
 
-Angle:
-Menggeser cara berpikir dari fitur ke konsekuensi.
+1. "Banyak konten gagal bukan karena jelek. Tapi karena terlalu aman."
+2. "Kalau kontenmu terus lewat begitu saja, masalahnya belum tentu algoritma."
+3. "Orang tidak ingat konten yang rapi. Orang ingat konten yang terasa kena."
+4. "Rajin posting tidak otomatis bikin orang peduli."
+5. "Masalah terbesar konten bukan sepi. Masalah terbesarnya: tidak menempel."
+6. "Kalau semua orang bisa bilang hal yang sama, kontenmu belum punya sudut tajam."
+7. "Konten yang disimpan biasanya bukan yang paling cantik. Tapi yang paling terasa berguna."
+8. "Sebelum bikin konten baru, cek dulu: ini relevan atau cuma ramai di kepala sendiri?"
 
-Potensi:
-Kuat untuk konten edukasi, jasa, dan produk digital.`;
-    }
+CATATAN:
+Pilih hook yang paling dekat dengan luka audiens, bukan yang paling puitis.`;
+      }
 
-    function generateHooks(ctx) {
-      return `MODE: HOOK
+      if (mode === "caption") {
+        return `CAPTION DRAFT
 
-Topik:
-${ctx.topic}
+${data.topic}
 
-30 hook awal bisa dikembangkan dari pola ini:
+Banyak orang sibuk cari cara supaya kontennya lebih sering naik.
 
-1. "Konten kamu bukan gagal karena jelek. Bisa jadi karena terlalu aman."
-2. "Produk bagus tetap bisa sepi kalau orang tidak tahu kenapa harus peduli."
-3. "Kesalahan creator pemula: terlalu cepat memberi solusi sebelum bikin orang merasa dipahami."
-4. "Kalau konten kamu sering dilewati, cek satu hal ini dulu."
-5. "Jangan mulai konten dari informasi. Mulai dari masalah yang terasa dekat."
-6. "Orang tidak share konten karena rapi. Mereka share karena merasa, 'ini gue banget.'"
-7. "Konten edukasi yang bagus bukan yang paling lengkap, tapi yang paling mudah diingat."
-8. "Kalau semua orang bisa bilang hal yang sama, berarti angle kamu belum cukup tajam."
-9. "Yang bikin konten mahal bukan desainnya, tapi cara berpikir di balik pesannya."
-10. "Sebelum posting, tanya ini: audiens akan save karena apa?"
+Padahal ada pertanyaan yang sering terlewat:
+kalau konten itu muncul di depan orang,
+apakah mereka langsung merasa,
+"ini gue banget"?
+atau cuma,
+"oke... lewat"?
 
-Tone:
-${ctx.tone}`;
-    }
+Konten yang tajam bukan sekadar menjelaskan sesuatu.
+Konten yang tajam membuat orang merasa dipahami,
+ditampar sedikit,
+lalu ingin menyimpan.
 
-    function generateScript(ctx) {
-      return `MODE: SCRIPT VIDEO
+Jadi sebelum posting lagi,
+jangan cuma tanya:
+"sudah rapi belum?"
 
-Judul:
-Kenapa konten kamu belum nempel di kepala audiens?
-
-Script 45 detik:
-
-Opening:
-"Kalau konten kamu sudah sering posting tapi tetap sepi, masalahnya mungkin bukan di rajin atau tidak."
-
-Body:
-"Masalahnya sering ada di angle. Banyak konten cuma menjawab pertanyaan, tapi tidak menyentuh rasa takut, kebingungan, atau keinginan audiens."
-
-"Misalnya kamu jual produk. Jangan cuma bilang produknya bagus. Tunjukkan kenapa hidup audiens jadi lebih mudah, lebih hemat waktu, atau lebih percaya diri setelah memakainya."
-
-"Konten yang kuat biasanya punya tiga hal: masalah yang jelas, sudut pandang yang tajam, dan alasan kenapa orang harus peduli sekarang."
-
-Closing:
-"Jadi sebelum bikin konten, jangan tanya: mau bahas apa? Tanya: luka, masalah, atau keinginan apa yang ingin gue sentuh?"
+Tanya juga:
+"sudah cukup relevan belum?"
 
 CTA:
-"Simpan ini sebelum bikin konten berikutnya."
+Kalau mau, aku bisa bikin versi carousel dari topik ini juga.`;
+      }
 
-Konteks:
-${ctx.niche} untuk ${ctx.audience}`;
-    }
+      if (mode === "auto") {
+        return `PAKET KONTEN LENGKAP
 
-    function generateCaption(ctx) {
-      return `MODE: CAPTION
+TOPIK:
+${data.topic}
 
-Caption 1:
-Konten yang bagus bukan cuma yang terlihat rapi.
+AUDIENS:
+${data.audience}
 
-Konten yang kuat membuat audiens merasa:
-"Ini masalah gue."
-"Ini yang selama ini gue bingung."
-"Ini perlu gue simpan."
+1. DIAGNOSIS:
+Masalah utama bukan kurang konten.
+Masalah utama: pesan konten terlalu umum dan kurang punya luka spesifik.
 
-Kalau konten kamu belum jalan, jangan langsung salahkan algoritma.
-Cek dulu: apakah pesanmu cukup spesifik untuk orang yang kamu tuju?
+2. COMMON BELIEF YANG DILAWAN:
+"Yang penting konsisten posting."
 
-Caption 2:
-Banyak creator terlalu fokus membuat konten terlihat profesional.
+3. REFRAME:
+Konsisten itu penting.
+Tapi kalau angle-nya kabur,
+kamu cuma konsisten membuat konten yang mudah dilewati.
 
-Padahal yang membuat orang berhenti scroll sering kali bukan visual paling mahal,
-tapi kalimat pertama yang terasa dekat dengan masalah mereka.
+4. HOOK:
+"Kamu bukan kurang rajin bikin konten.
+Kamu bisa jadi cuma belum cukup tajam."
 
-Sebelum posting, tanya:
-Apa alasan orang harus peduli dengan konten ini sekarang?
+5. STRUKTUR KONTEN:
+- Slide 1: hook besar
+- Slide 2: masalah yang dirasakan audiens
+- Slide 3: kenapa banyak orang salah diagnosis
+- Slide 4: mekanisme yang sebenarnya
+- Slide 5: contoh angle lemah vs angle tajam
+- Slide 6: CTA save
 
-CTA:
-Simpan kalau kamu sedang bangun personal brand atau bisnis kecil.
+6. CTA:
+"Simpan sebelum bikin konten berikutnya."
 
-Topik:
-${ctx.topic}`;
-    }
+7. RISIKO GAGAL:
+Kalau terlalu abstrak, konten terasa sok pintar.
+Kasih contoh nyata agar lebih membumi.`;
+      }
 
-    function generateCarousel(ctx) {
-      return `MODE: CAROUSEL
+      if (mode === "carousel") {
+        return `STRUKTUR CAROUSEL 6 SLIDE
 
-Carousel 7 slide
+JUDUL BESAR:
+KENAPA KONTENMU TIDAK DIINGAT ORANG
 
-Slide 1:
-KONTEN KAMU BUKAN KURANG BAGUS.
-MUNGKIN KURANG TAJAM.
+SLIDE 1 — HOOK
+Banyak konten gagal
+bukan karena jelek.
+Tapi karena tidak cukup melekat.
 
-Slide 2:
-Banyak orang membuat konten dari sudut pandang dirinya:
-"Aku mau bahas ini."
-"Aku mau jual ini."
-"Aku mau terlihat ahli."
+SLIDE 2 — PROBLEM
+Orang sudah posting rutin.
+Sudah desain rapi.
+Sudah kasih informasi.
+Tapi tetap terasa lewat begitu saja.
 
-Slide 3:
-Padahal audiens bertanya:
-"Ini penting buat gue karena apa?"
-"Masalah gue terbantu di bagian mana?"
-"Kenapa gue harus peduli sekarang?"
+SLIDE 3 — SALAH DIAGNOSIS
+Lalu semua disalahkan:
+algoritma,
+jam posting,
+atau followers kecil.
 
-Slide 4:
-Konten yang kuat biasanya punya satu luka spesifik.
+SLIDE 4 — MEKANISME
+Padahal yang sering kurang adalah:
+sudut pandang,
+ketajaman pesan,
+dan relevansi luka audiens.
 
-Bukan:
-"Tips bisnis"
+SLIDE 5 — CONTOH
+Angle lemah:
+"Cara bikin konten bagus."
+Angle lebih tajam:
+"Kenapa kontenmu rapi tapi tetap tidak diingat orang?"
 
-Tapi:
-"Kenapa jualan kamu sepi padahal produkmu tidak buruk"
+SLIDE 6 — CTA
+Simpan ini sebelum bikin postingan berikutnya.`;
+      }
 
-Slide 5:
-Semakin spesifik masalahnya,
-semakin besar kemungkinan orang merasa:
-"Ini gue banget."
+      if (mode === "calendar") {
+        return `KALENDER KONTEN 7 HARI
 
-Slide 6:
-Sebelum posting, cek 3 hal:
-1. Masalahnya jelas?
-2. Audiensnya spesifik?
-3. Ada alasan untuk save/share?
+NICHE:
+${data.niche}
 
-Slide 7:
-Jangan cuma bikin konten lebih banyak.
-Bikin konten yang lebih punya arah.
+TARGET:
+${data.audience}
 
-CTA:
-Simpan sebelum bikin konten berikutnya.
+HARI 1:
+Konten problem awareness
+Tema: masalah utama yang sering tidak disadari audiens
 
-Konteks:
-Niche ${ctx.niche}, target ${ctx.audience}`;
-    }
+HARI 2:
+Konten checklist
+Tema: indikator apakah kontenmu terlalu umum
 
-    function generateCalendar(ctx) {
-      return `MODE: KALENDER KONTEN 7 HARI
+HARI 3:
+Konten opini tajam
+Tema: mitos yang sering dipercaya orang
 
-Niche:
-${ctx.niche}
+HARI 4:
+Konten edukasi
+Tema: bedanya konten informatif dan konten yang melekat
 
-Target:
-${ctx.audience}
+HARI 5:
+Konten studi kasus
+Tema: contoh angle lemah vs angle kuat
 
-Hari 1:
-Topik: Kesalahan umum di niche kamu
-Format: Carousel edukasi
-Tujuan: Awareness
+HARI 6:
+Konten CTA/saveable
+Tema: template evaluasi sebelum posting
 
-Hari 2:
-Topik: Mitos yang sering dipercaya audiens
-Format: Video 45 detik
-Tujuan: Engagement
+HARI 7:
+Repurpose
+Tema: rangkum 3 insight terbaik minggu ini jadi satu postingan.`;
+      }
 
-Hari 3:
-Topik: Checklist praktis
-Format: Carousel saveable
-Tujuan: Save
+      if (mode === "repurpose") {
+        return `REPURPOSE PLAN
 
-Hari 4:
-Topik: Studi kasus sederhana
-Format: Storytelling post
-Tujuan: Trust
+IDE ASAL:
+${data.topic}
 
-Hari 5:
-Topik: Behind the thinking
-Format: Single image premium
-Tujuan: Personal brand
+UBAH MENJADI:
 
-Hari 6:
-Topik: Masalah yang sering diabaikan
-Format: Hook brutal + carousel
-Tujuan: Share
+1. Carousel:
+"Kenapa kontenmu tidak diingat orang?"
 
-Hari 7:
-Topik: Soft selling
-Format: Edukasi + solusi
-Tujuan: Conversion
+2. Short video:
+Hook:
+"Masalah kontenmu belum tentu sepi. Bisa jadi cuma tidak cukup menempel."
 
-Catatan:
-Ulangi format yang punya save, share, dan profile visit tertinggi.`;
-    }
+3. Story 3 frame:
+- Frame 1: kontenmu terasa lewat?
+- Frame 2: mungkin pesannya terlalu umum.
+- Frame 3: mau aku bikin checklist-nya?
 
-    function generateRepurpose(ctx) {
-      return `MODE: REPURPOSE
+4. Caption reflektif:
+Bahas kenapa banyak creator terlalu fokus ke tampilan, bukan relevansi.
 
-Satu topik:
-${ctx.topic}
+5. Quote single image:
+"Konten yang kuat bukan cuma memberi informasi.
+Ia membuat orang merasa: ini buat gue."
 
-1. Jadi carousel:
-"5 alasan konten kamu belum menarik perhatian"
+6. Thread:
+5 alasan kenapa kontenmu terlihat rapi tapi tetap tidak membekas.`;
+      }
 
-2. Jadi video pendek:
-Hook: "Konten kamu bukan jelek. Pesannya saja belum cukup tajam."
+      return `GROWTH EVALUATION
 
-3. Jadi caption:
-Bahas kenapa creator sering terlalu fokus pada tampilan, bukan sudut pandang.
+TOPIK:
+${data.topic}
 
-4. Jadi story:
-Frame 1: "Konten sepi?"
-Frame 2: "Cek angle, bukan cuma desain."
-Frame 3: "Mau template evaluasinya?"
+FOKUS EVALUASI:
+- Apakah hook cukup stop-scroll?
+- Apakah inti pesan cukup spesifik?
+- Apakah ada alasan jelas untuk save?
+- Apakah audiens merasa ini membahas luka mereka?
 
-5. Jadi quote:
-"Konten yang kuat bukan cuma memberi informasi. Ia membuat orang merasa dipahami."
+3 PRIORITAS PERBAIKAN:
+1. Perjelas siapa konten ini untuk siapa.
+2. Kurangi bahasa yang terlalu umum.
+3. Tambah contoh nyata agar lebih shareable.
 
-6. Jadi thread:
-Breakdown 5 cara membuat angle konten lebih spesifik.
+METRIK YANG HARUS DIPANTAU:
+- save rate
+- share rate
+- komentar yang relevan
+- profile visit
+- retention sampai slide terakhir
 
-7. Jadi soft selling:
-Tunjukkan bahwa produk/jasa kamu membantu orang membuat pesan yang lebih jelas.`;
-    }
-
-    function generateAudit(ctx) {
-      return `MODE: GROWTH AUDIT
-
-Topik:
-${ctx.topic}
-
-1. Hook Strength:
-7/10
-Hook cukup kuat jika dimulai dari masalah spesifik, bukan klaim umum.
-
-2. Retention:
-Potensi sedang-tinggi.
-Akan kuat kalau setiap bagian membuka pertanyaan baru.
-
-3. Emotional Impact:
-Cukup kuat untuk creator dan UMKM yang merasa sudah usaha tapi belum tumbuh.
-
-4. Save Potential:
-Tinggi jika dibuat sebagai checklist:
-- Cek masalah
-- Cek audiens
-- Cek angle
-- Cek CTA
-
-5. Share Potential:
-Sedang.
-Akan naik jika kalimatnya terasa seperti kritik halus yang banyak orang alami.
-
-6. Bagian lemah:
-Topik bisa terlalu generik kalau tidak diberi contoh nyata.
-
-7. Revisi agar lebih kuat:
-Jangan pakai hook:
-"Tips membuat konten menarik"
-
-Pakai:
-"Konten kamu bukan gagal karena jelek. Bisa jadi karena terlalu aman."
-
-8. Verdict:
-Layak dibuat, tapi harus diarahkan ke satu masalah spesifik.`;
+KESIMPULAN:
+Naik bukan berarti posting lebih banyak.
+Naik berarti pesanmu makin tepat,
+makin tajam,
+dan makin terasa penting.`;
     }
 
     function copyOutput() {
-      const text = document.getElementById("output").textContent;
-      navigator.clipboard.writeText(text).then(showToast);
-    }
+      const output = document.getElementById("output").textContent.trim();
+      if (!output) return;
 
-    function showToast() {
-      const toast = document.getElementById("toast");
-      toast.classList.add("show");
-
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 1600);
-    }
-
-    function clearAll() {
-      document.getElementById("niche").value = "";
-      document.getElementById("audience").value = "";
-      document.getElementById("topic").value = "";
-      document.getElementById("output").textContent = "Pilih mode kerja, isi konteks, lalu klik Generate Output.";
-    }
-
-    function loadExample() {
-      document.getElementById("niche").value = "UMKM kopi lokal";
-      document.getElementById("audience").value = "anak muda yang suka nongkrong tapi sensitif harga";
-      document.getElementById("goal").value = "Engagement";
-      document.getElementById("tone").value = "Premium dan tajam";
-      document.getElementById("topic").value = "Kenapa coffee shop kecil harus punya cerita, bukan cuma menu?";
-      scrollToWorkspace();
-    }
-
-    function scrollToWorkspace() {
-      document.getElementById("workspace").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+      navigator.clipboard.writeText(output).then(() => {
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1600);
       });
     }
   </script>
