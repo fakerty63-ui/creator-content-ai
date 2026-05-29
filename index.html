@@ -1,4 +1,128 @@
-<!DOCTYPE html>
+python3 - <<'PY'
+from pathlib import Path
+
+p = Path("index.html")
+s = p.read_text()
+
+patch = """
+/* === V2.1 BRIGHTNESS PATCH === */
+body {
+  background:
+    radial-gradient(circle at top, rgba(255,106,0,.18), transparent 30%),
+    linear-gradient(180deg, #1b0d06 0%, #101018 30%, #0f111a 100%) !important;
+  color: #ffffff !important;
+}
+
+.hero {
+  border-bottom-color: rgba(255,106,0,.28) !important;
+}
+
+.panel {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+    #171923 !important;
+  border-color: rgba(255,255,255,.14) !important;
+  box-shadow: 0 18px 60px rgba(0,0,0,.28) !important;
+}
+
+.label {
+  color: #ff9b72 !important;
+}
+
+.sub,
+.mini,
+.active-text {
+  color: #d1d5db !important;
+}
+
+input,
+textarea,
+select {
+  background: #202436 !important;
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,.18) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #b8beca !important;
+}
+
+.tool {
+  background: #1b1f2d !important;
+  color: #f3f4f6 !important;
+  border-color: rgba(255,255,255,.14) !important;
+}
+
+.tool::after {
+  opacity: .25 !important;
+}
+
+.tool strong {
+  color: #ffffff !important;
+}
+
+.tool span {
+  color: #cbd5e1 !important;
+  opacity: 1 !important;
+}
+
+.tool.active {
+  background: linear-gradient(135deg, #ff6a00, #ff8a2a) !important;
+  color: #111111 !important;
+  border-color: rgba(255,138,42,.85) !important;
+}
+
+.tool.active strong,
+.tool.active span {
+  color: #111111 !important;
+}
+
+.tool.good.active {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+}
+
+.active-desc {
+  background: linear-gradient(90deg, rgba(255,106,0,.18), rgba(255,255,255,.04)) !important;
+  border-top-color: rgba(255,255,255,.12) !important;
+  border-right-color: rgba(255,255,255,.12) !important;
+  border-bottom-color: rgba(255,255,255,.12) !important;
+}
+
+.active-title {
+  color: #ffffff !important;
+}
+
+.output {
+  background:
+    radial-gradient(circle at top right, rgba(255,106,0,.12), transparent 34%),
+    #171923 !important;
+  color: #f8fafc !important;
+  border-color: rgba(255,255,255,.14) !important;
+}
+
+.copy {
+  background: #202436 !important;
+  border-color: rgba(255,255,255,.16) !important;
+  color: #ffffff !important;
+}
+"""
+
+marker = "/* === V2.1 BRIGHTNESS PATCH === */"
+
+if marker in s:
+    before = s.split(marker)[0]
+    after = s.split("</style>", 1)[1]
+    s = before + patch + "\n</style>" + after
+else:
+    s = s.replace("</style>", patch + "\n</style>")
+
+p.write_text(s)
+PY
+
+git add index.html
+git commit -m "improve mobile brightness and contrast"
+git push<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
