@@ -6,15 +6,727 @@
   <title>CreatorPilot AI</title>
 
   <style>
+cat > index.html <<'EOF'
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Content Strategy Kit</title>
+
+  <style>
     :root {
+      --bg: #09090d;
+      --panel: #12121a;
+      --panel2: #191927;
+      --border: rgba(255,255,255,.08);
+      --text: #f4f4f5;
+      --muted: #9ca3af;
+      --soft: #d4d4d8;
+      --orange: #ff6a00;
+      --orange2: #ff8a2a;
+      --green: #1f7a3a;
+      --green2: #23c55e;
+      --red: #ef4444;
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(255,106,0,.16), transparent 28%),
+        linear-gradient(180deg, #120905 0%, #08080c 28%, #09090d 100%);
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    .app {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .hero {
+      padding: 26px 0 24px;
+      border-bottom: 1px solid rgba(255,106,0,.18);
+      margin-bottom: 24px;
+    }
+
+    .kicker {
+      letter-spacing: .55em;
+      color: #e5794f;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .title-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #0e1017;
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 0 30px rgba(255,106,0,.12);
+      font-size: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 8vw, 58px);
+      line-height: .98;
+      letter-spacing: -.04em;
+      max-width: 680px;
+    }
+
+    .sub {
+      margin-top: 14px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      letter-spacing: .12em;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015)), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 22px 80px rgba(0,0,0,.35);
+      margin-bottom: 22px;
+    }
+
+    .label {
+      color: #f08a63;
+      letter-spacing: .42em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.09);
+      background: #171725;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 15px 16px;
+      outline: none;
+      font-size: 18px;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(255,106,0,.55);
+      box-shadow: 0 0 0 4px rgba(255,106,0,.09);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .tool {
+      position: relative;
+      min-height: 104px;
+      border: 1px solid var(--border);
+      background: #11111a;
+      color: var(--muted);
+      border-radius: 16px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: .18s ease;
+      overflow: hidden;
+    }
+
+    .tool::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(255,255,255,.08), transparent 35%);
+      pointer-events: none;
+      opacity: .7;
+    }
+
+    .tool:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,106,0,.32);
+    }
+
+    .tool.active {
+      background: linear-gradient(135deg, rgba(255,106,0,.95), rgba(220,75,0,.85));
+      color: white;
+      border-color: rgba(255,106,0,.8);
+      box-shadow: 0 18px 48px rgba(255,106,0,.18);
+    }
+
+    .tool.good {
+      background: linear-gradient(135deg, rgba(31,122,58,.75), rgba(15,67,34,.85));
+      border-color: rgba(35,197,94,.42);
+      color: #dbffe8;
+    }
+
+    .tool.good.active {
+      background: linear-gradient(135deg, rgba(35,197,94,.95), rgba(31,122,58,.95));
+      color: #07140b;
+    }
+
+    .emoji {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 9px;
+    }
+
+    .tool strong {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: .04em;
+    }
+
+    .tool span {
+      display: block;
+      margin-top: 5px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.35;
+      opacity: .8;
+    }
+
+    .active-desc {
+      border-left: 4px solid var(--orange);
+      background: linear-gradient(90deg, rgba(255,106,0,.12), rgba(255,255,255,.02));
+      padding: 18px 18px 18px 20px;
+      border-radius: 0 18px 18px 0;
+      margin-top: 22px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-right: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .active-title {
+      margin: 0 0 8px;
+      font-size: 23px;
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+
+    .active-text {
+      margin: 0;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .generate {
+      border: 0;
+      background: linear-gradient(135deg, #ff6a00, #ff8a2a);
+      color: #101010;
+      border-radius: 16px;
+      padding: 17px 18px;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 19px;
+      box-shadow: 0 18px 45px rgba(255,106,0,.22);
+    }
+
+    .copy {
+      border: 1px solid var(--border);
+      background: #181821;
+      color: var(--text);
+      border-radius: 16px;
+      padding: 15px 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .output {
+      min-height: 340px;
+      background:
+        radial-gradient(circle at top right, rgba(255,106,0,.09), transparent 32%),
+        #0e0e15;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      white-space: pre-wrap;
+      color: #ededed;
+      line-height: 1.7;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+    }
+
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #f4f4f5;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .spinner {
+      width: 25px;
+      height: 25px;
+      border: 3px solid rgba(255,255,255,.15);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin .85s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .mini {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      transition: .18s ease;
+      background: #181821;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .actions {
+        grid-template-columns: 1fr auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header class="hero">
+      <div class="kicker">AI CONTENT STRATEGY KIT</div>
+
+      <div class="title-row">
+        <div class="app-icon">📱</div>
+        <h1>Creator, UMKM & Personal Brand</h1>
+      </div>
+
+      <div class="sub">
+        @creatorpilot · dummy mode → target: konten lebih tajam 🎯
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="label">Topik spesifik</div>
+      <textarea id="topic" placeholder="Contoh: Kenapa coffee shop kecil harus punya cerita, bukan cuma menu?"></textarea>
+
+      <div style="height:14px"></div>
+
+      <div class="label">Konteks audiens</div>
+      <input id="audience" placeholder="Contoh: anak muda, UMKM, creator pemula, calon pembeli" />
+    </section>
+
+    <section class="panel">
+      <div class="label">Pilih mode</div>
+
+      <div class="grid">
+        <button class="tool good active" data-mode="ide">
+          <span class="emoji">💡</span>
+          <strong>Ide</strong>
+          <span>Angle konten yang tidak generik</span>
+        </button>
+
+        <button class="tool" data-mode="caption">
+          <span class="emoji">✍️</span>
+          <strong>Caption</strong>
+          <span>Hook, cerita, CTA</span>
+        </button>
+
+        <button class="tool" data-mode="auto">
+          <span class="emoji">🤖</span>
+          <strong>Auto</strong>
+          <span>Paket konten lengkap</span>
+        </button>
+
+        <button class="tool" data-mode="growth">
+          <span class="emoji">📈</span>
+          <strong>Growth</strong>
+          <span>Strategi naik audiens</span>
+        </button>
+
+        <button class="tool" data-mode="hook">
+          <span class="emoji">🎯</span>
+          <strong>Hook</strong>
+          <span>Stop scroll 3 detik</span>
+        </button>
+
+        <button class="tool" data-mode="repurpose">
+          <span class="emoji">♻️</span>
+          <strong>Repurpose</strong>
+          <span>1 ide jadi banyak format</span>
+        </button>
+
+        <button class="tool" data-mode="engage">
+          <span class="emoji">🚀</span>
+          <strong>Engage</strong>
+          <span>Komentar, save, share</span>
+        </button>
+      </div>
+
+      <div class="active-desc">
+        <h2 id="modeTitle" class="active-title">💡 Ide — Ide Konten Tajam</h2>
+        <p id="modeDesc" class="active-text">
+          Buat ide konten dengan angle spesifik, alasan orang berhenti scroll, potensi save/share, dan risiko gagal.
+        </p>
+      </div>
+
+      <div class="actions">
+        <button class="generate" onclick="generate()">AI sedang analisis & generate...</button>
+        <button class="copy" onclick="copyOutput()">Copy Output</button>
+      </div>
+
+      <p class="mini">
+        Mode dummy aktif. Belum tersambung API, tapi alur dan UI sudah bisa dipakai.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="label">Hasil strategi</div>
+      <div id="output" class="output">Pilih mode, isi topik, lalu klik generate.</div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast">Output berhasil disalin.</div>
+
+  <script>
+    let selectedMode = "ide";
+
+    const modeInfo = {
+      ide: {
+        title: "💡 Ide — Ide Konten Tajam",
+        desc: "Buat ide konten dengan angle spesifik, alasan orang berhenti scroll, potensi save/share, dan risiko gagal."
+      },
+      caption: {
+        title: "✍️ Caption — Caption yang Nggak Hambar",
+        desc: "Buat caption dengan hook awal, mini story, reframing, dan CTA natural."
+      },
+      auto: {
+        title: "🤖 Auto — Paket Konten Lengkap",
+        desc: "Ubah satu premis jadi hook, struktur konten, caption, CTA, dan kritik risiko gagal."
+      },
+      growth: {
+        title: "📈 Growth — Rencana Tumbuh",
+        desc: "Susun strategi konten, pilar, jadwal, dan cara membaca sinyal konten menang."
+      },
+      hook: {
+        title: "🎯 Hook — Stop Scroll",
+        desc: "Buat variasi hook yang kuat untuk 3 detik pertama."
+      },
+      repurpose: {
+        title: "♻️ Repurpose — 1 Ide Banyak Format",
+        desc: "Ubah satu ide jadi carousel, video pendek, caption, story, dan quote."
+      },
+      engage: {
+        title: "🚀 Engage — Komentar, Save, Share",
+        desc: "Buat CTA, pertanyaan, dan sistem engagement yang terasa natural."
+      }
+    };
+
+    document.querySelectorAll(".tool").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tool").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedMode = btn.dataset.mode;
+        document.getElementById("modeTitle").textContent = modeInfo[selectedMode].title;
+        document.getElementById("modeDesc").textContent = modeInfo[selectedMode].desc;
+      });
+    });
+
+    function ctx() {
+      return {
+        topic: document.getElementById("topic").value.trim() || "cara membuat konten yang lebih tajam dan tidak generik",
+        audience: document.getElementById("audience").value.trim() || "creator, UMKM, dan personal brand"
+      };
+    }
+
+    function generate() {
+      const output = document.getElementById("output");
+      output.innerHTML = '<div class="loading"><span class="spinner"></span>AI sedang analisis & generate...</div>';
+
+      setTimeout(() => {
+        const c = ctx();
+        output.textContent = makeOutput(selectedMode, c);
+      }, 700);
+    }
+
+    function makeOutput(mode, c) {
+      if (mode === "ide") {
+        return `💡 IDE KONTEN
+
+Topik:
+${c.topic}
+
+Target:
+${c.audience}
+
+1. Hook:
+"Konten kamu bukan gagal karena jelek. Bisa jadi karena terlalu aman."
+
+Angle:
+Bukan menyalahkan algoritma, tapi membongkar kenapa pesan konten tidak cukup tajam.
+
+Kenapa orang berhenti scroll:
+Karena banyak creator dan UMKM merasa sudah rajin posting, tapi hasilnya tetap datar.
+
+Save/share potential:
+Tinggi. Bisa dibuat sebagai checklist evaluasi konten.
+
+Format:
+Carousel 6 slide atau video 45 detik.
+
+Risiko gagal:
+Kalau terlalu umum, konten terasa seperti nasihat creator biasa. Harus pakai contoh nyata.`;
+      }
+
+      if (mode === "caption") {
+        return `✍️ CAPTION
+
+Konten yang bagus bukan cuma yang terlihat rapi.
+
+Konten yang kuat membuat orang merasa:
+"Ini masalah gue."
+"Ini yang selama ini gue bingung."
+"Ini perlu gue simpan."
+
+Kalau konten kamu belum jalan, jangan langsung salahkan algoritma.
+
+Cek dulu:
+apakah pesanmu cukup spesifik untuk orang yang kamu tuju?
+
+CTA:
+Simpan sebelum bikin konten berikutnya.
+
+Topik:
+${c.topic}`;
+      }
+
+      if (mode === "auto") {
+        return `🤖 PAKET KONTEN LENGKAP
+
+Premis:
+${c.topic}
+
+1. Audit:
+Premis ini kuat kalau diarahkan ke masalah spesifik, bukan tips umum.
+
+2. Luka audiens:
+Sudah rajin posting, tapi konten tetap terasa tidak bergerak.
+
+3. Common belief yang dilawan:
+"Yang penting konsisten posting."
+
+4. Reframe:
+Konsisten itu penting. Tapi kalau pesannya kabur, kamu cuma konsisten membuat konten yang dilewati.
+
+5. Hook utama:
+KONTEN KAMU BUKAN KURANG BANYAK.
+MUNGKIN KURANG TAJAM.
+
+6. Carousel:
+Slide 1: Hook besar
+Slide 2: Masalah umum
+Slide 3: Kesalahan cara berpikir
+Slide 4: Contoh angle lemah vs tajam
+Slide 5: Checklist sebelum posting
+Slide 6: CTA save
+
+7. Caption:
+Jangan cuma bikin konten lebih banyak. Bikin konten yang lebih punya alasan untuk disimpan.
+
+8. Risiko gagal:
+Bahasa terlalu abstrak. Harus diberi contoh nyata.`;
+      }
+
+      if (mode === "growth") {
+        return `📈 GROWTH PLAN
+
+Target:
+${c.audience}
+
+7 hari eksperimen konten:
+
+Hari 1:
+Konten problem awareness.
+Topik: masalah terbesar audiens.
+
+Hari 2:
+Konten checklist.
+Tujuan: save.
+
+Hari 3:
+Konten opini tajam.
+Tujuan: komentar.
+
+Hari 4:
+Konten studi kasus.
+Tujuan: trust.
+
+Hari 5:
+Konten mitos vs realita.
+Tujuan: share.
+
+Hari 6:
+Konten soft selling.
+Tujuan: conversion.
+
+Hari 7:
+Repurpose konten terbaik minggu ini.
+
+Metrik utama:
+- retention
+- save
+- share
+- komentar
+- profile visit`;
+      }
+
+      if (mode === "hook") {
+        return `🎯 HOOK
+
+Topik:
+${c.topic}
+
+1. "Konten kamu bukan gagal karena jelek. Bisa jadi karena terlalu aman."
+2. "Kalau kontenmu sering dilewati, cek kalimat pertamanya."
+3. "Jangan mulai dari apa yang ingin kamu bahas. Mulai dari masalah yang audiens rasakan."
+4. "Orang tidak share konten karena rapi. Mereka share karena merasa dipahami."
+5. "Konsisten posting tidak cukup kalau angle-nya lemah."
+6. "Produk bagus tetap bisa sepi kalau pesannya tidak jelas."
+7. "Sebelum bikin konten, tanya: ini penting buat siapa?"
+8. "Konten yang tajam biasanya mulai dari luka yang spesifik."`;
+      }
+
+      if (mode === "repurpose") {
+        return `♻️ REPURPOSE
+
+Satu topik:
+${c.topic}
+
+1. Carousel:
+"5 alasan konten kamu belum menarik perhatian"
+
+2. Video pendek:
+Hook: "Konten kamu bukan jelek. Pesannya saja belum cukup tajam."
+
+3. Story:
+Frame 1: Konten sepi?
+Frame 2: Cek angle, bukan cuma desain.
+Frame 3: Mau template evaluasinya?
+
+4. Caption:
+Bahas kenapa creator sering terlalu fokus ke tampilan, bukan sudut pandang.
+
+5. Quote:
+"Konten yang kuat bukan cuma memberi informasi. Ia membuat orang merasa dipahami."
+
+6. Thread:
+Breakdown 5 cara membuat angle konten lebih spesifik.`;
+      }
+
+      return `🚀 ENGAGEMENT SYSTEM
+
+Target:
+${c.audience}
+
+CTA komentar:
+1. "Menurut kamu, konten yang bagus itu harus rapi atau harus tajam?"
+2. "Bagian mana yang paling sering bikin kamu stuck?"
+3. "Kamu lebih susah bikin hook atau caption?"
+4. "Kalau mau, aku bisa bikin versi checklist-nya."
+5. "Pernah merasa sudah rajin posting tapi tetap sepi?"
+
+CTA save:
+- Simpan sebelum bikin konten berikutnya.
+- Pakai ini sebagai checklist sebelum upload.
+- Save kalau kamu sedang bangun personal brand.
+
+Cara balas komentar:
+Komentar panjang → jadikan konten baru.
+Komentar bingung → jadikan carousel edukasi.
+Komentar setuju → minta mereka cerita pengalaman.`;
+    }
+
+    function copyOutput() {
+      const text = document.getElementById("output").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById("toast");
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1500);
+      });
+    }
+  </script>
+</body>
+</html>
+EOF
+
+git add index.html
+git commit -m "update design v2"
+git push
       --bg: #070707;
       --panel: #101010;
       --panel-2: #151515;
-      --border: rgba(255, 255, 255, 0.08);
-      --text: #f2f2f2;
-      --muted: #8b8b8b;
-      --soft: #cfcfcf;
-      --gold: #c9a84c;
+      --border: rgba(255,     --gold: #c9a84c;
       --gold-soft: rgba(201, 168, 76, 0.14);
       --danger: #ff6b6b;
       --radius: 24px;
