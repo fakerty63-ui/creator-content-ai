@@ -4,999 +4,786 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CreatorPilot AI</title>
-  <meta name="theme-color" content="#0b0b10" />
+  <meta name="theme-color" content="#0B0D12" />
+
   <style>
-    :root{
-      --bg:#0b0b10;
-      --bg-2:#11131a;
-      --panel:#141722;
-      --panel-2:#1a1f2d;
-      --stroke:rgba(255,255,255,.08);
-      --soft-stroke:rgba(255,255,255,.05);
-      --text:#f5f7fb;
-      --muted:#a3acbf;
-      --muted-2:#7c8598;
-      --gold:#d6ad58;
-      --gold-2:#f3c970;
-      --green:#1ec972;
-      --orange:#ff7b2c;
-      --red:#ff5f6d;
-      --shadow:0 18px 60px rgba(0,0,0,.35);
-      --radius-xl:28px;
-      --radius-lg:22px;
-      --radius-md:16px;
-      --radius-sm:12px;
-      --max:820px;
+    :root {
+      --bg: #0b0d12;
+      --panel: #11141d;
+      --panel2: #171b27;
+      --panel3: #202637;
+      --text: #f6f7fb;
+      --muted: #a7afc1;
+      --muted2: #737d91;
+      --line: rgba(255,255,255,.09);
+      --gold: #d8ae55;
+      --gold2: #f3c96e;
+      --orange: #ff7b2c;
+      --green: #20c874;
+      --blue: #5b8cff;
+      --red: #ff6675;
+      --radius: 22px;
+      --shadow: 0 18px 60px rgba(0,0,0,.38);
     }
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text)}
-    body{
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(214,173,88,.14), transparent 26%),
-        radial-gradient(circle at top right, rgba(255,123,44,.10), transparent 24%),
-        linear-gradient(180deg, #0b0b10 0%, #0d1018 48%, #0b0b10 100%);
-      min-height:100vh;
+        radial-gradient(circle at top left, rgba(216,174,85,.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(255,123,44,.10), transparent 25%),
+        linear-gradient(180deg, #0b0d12 0%, #0f1320 45%, #0b0d12 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      padding-bottom: 88px;
     }
 
-    .app{
-      width:min(var(--max), 100%);
-      margin:0 auto;
-      padding:18px 16px 32px;
+    button, input, textarea, select {
+      font: inherit;
     }
 
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:20;
-      padding:10px 0 14px;
-      backdrop-filter: blur(14px);
-      background:linear-gradient(180deg, rgba(11,11,16,.92), rgba(11,11,16,.72), transparent);
+    button {
+      border: 0;
+      cursor: pointer;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:10px 12px;
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--soft-stroke);
-      border-radius:20px;
-      box-shadow:var(--shadow);
+    .app {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 16px;
     }
 
-    .logo{
-      width:48px;height:48px;border-radius:16px;
-      display:grid;place-items:center;
-      font-weight:900;
-      font-size:22px;
-      color:#121212;
-      background:linear-gradient(135deg,var(--gold-2),var(--gold));
-      box-shadow:0 10px 30px rgba(214,173,88,.25);
-      flex:0 0 auto;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 10px 0 14px;
+      background: linear-gradient(180deg, rgba(11,13,18,.96), rgba(11,13,18,.72), transparent);
+      backdrop-filter: blur(16px);
     }
 
-    .brand-text h1{
-      margin:0;
-      font-size:22px;
-      line-height:1.05;
-      letter-spacing:-.03em;
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 12px;
+      box-shadow: var(--shadow);
     }
 
-    .brand-text p{
-      margin:4px 0 0;
-      color:var(--muted);
-      font-size:13px;
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .hero{
-      margin-top:16px;
+    .logo {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--gold2), var(--gold));
+      color: #111;
+      font-weight: 950;
+      letter-spacing: -.06em;
+      flex: 0 0 auto;
+      box-shadow: 0 16px 36px rgba(216,174,85,.22);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      background: rgba(255,255,255,.035);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(32,200,116,.8);
+    }
+
+    .hero {
+      margin-top: 14px;
       background:
-        radial-gradient(circle at 85% 20%, rgba(214,173,88,.16), transparent 22%),
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+        radial-gradient(circle at 88% 12%, rgba(216,174,85,.16), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
         var(--panel);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius-xl);
-      padding:22px 18px 18px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(214,173,88,.22);
-      color:var(--gold-2);
-      background:rgba(214,173,88,.08);
-      font-size:13px;
-      font-weight:700;
-      margin-bottom:16px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid rgba(216,174,85,.24);
+      border-radius: 999px;
+      background: rgba(216,174,85,.09);
+      color: var(--gold2);
+      font-weight: 800;
+      font-size: 12px;
+      margin-bottom: 15px;
     }
 
-    .hero h2{
-      margin:0;
-      font-size:clamp(34px, 8vw, 56px);
-      line-height:.97;
-      letter-spacing:-.05em;
-      max-width:680px;
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(34px, 8vw, 58px);
+      line-height: .96;
+      letter-spacing: -.06em;
     }
 
-    .hero p{
-      margin:16px 0 0;
-      color:#d6dbe7;
-      font-size:18px;
-      line-height:1.72;
-      max-width:680px;
+    .hero p {
+      margin: 15px 0 0;
+      color: #d8deea;
+      font-size: 16px;
+      line-height: 1.72;
+      max-width: 680px;
     }
 
-    .hero-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:20px;
+    .quick-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      margin-top: 18px;
     }
 
-    button{
-      border:0;
-      cursor:pointer;
-      font:inherit;
-      transition:.18s ease;
+    .quick {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 14px;
+      text-align: left;
+      min-height: 82px;
     }
 
-    .btn-primary{
-      background:linear-gradient(135deg,var(--gold-2),var(--gold));
-      color:#111;
-      font-weight:900;
-      padding:15px 20px;
-      border-radius:18px;
-      box-shadow:0 16px 38px rgba(214,173,88,.24);
+    .quick strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
     }
 
-    .btn-primary:hover{transform:translateY(-1px)}
-
-    .btn-secondary{
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--stroke);
-      color:var(--text);
-      font-weight:700;
-      padding:15px 18px;
-      border-radius:18px;
+    .quick span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
     }
 
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-top:20px;
+    .workspace {
+      display: grid;
+      gap: 15px;
+      margin-top: 15px;
     }
 
-    .stat{
-      background:rgba(255,255,255,.025);
-      border:1px solid var(--soft-stroke);
-      border-radius:18px;
-      padding:16px 14px;
-    }
-
-    .stat strong{
-      display:block;
-      font-size:28px;
-      letter-spacing:-.04em;
-    }
-
-    .stat span{
-      display:block;
-      margin-top:4px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.4;
-    }
-
-    .workspace{
-      margin-top:18px;
-      display:grid;
-      gap:16px;
-    }
-
-    .panel{
+    .panel {
       background:
-        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
+        linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
         var(--panel);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius-xl);
-      padding:18px;
-      box-shadow:var(--shadow);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
     }
 
-    .panel-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
-    .panel-title h3{
-      margin:0;
-      font-size:24px;
-      letter-spacing:-.03em;
+    .panel-head h3 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.035em;
     }
 
-    .panel-title .mini{
-      color:var(--muted-2);
-      font-size:12px;
-      font-weight:700;
-      padding:8px 10px;
-      border:1px solid var(--soft-stroke);
-      border-radius:999px;
-      background:rgba(255,255,255,.03);
+    .panel-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .field{
-      margin-bottom:14px;
+    .pill {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.035);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .field label{
-      display:block;
-      color:var(--gold-2);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.24em;
-      text-transform:uppercase;
-      margin-bottom:10px;
+    .field {
+      margin-bottom: 13px;
     }
 
-    input,textarea,select{
-      width:100%;
-      background:var(--panel-2);
-      border:1px solid rgba(255,255,255,.1);
-      color:var(--text);
-      border-radius:16px;
-      padding:16px;
-      outline:none;
-      font:inherit;
-      transition:.18s ease;
+    .field label {
+      display: block;
+      color: var(--gold2);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
     }
 
-    input::placeholder, textarea::placeholder{color:#8f98ab}
-    input:focus, textarea:focus, select:focus{
-      border-color:rgba(214,173,88,.45);
-      box-shadow:0 0 0 4px rgba(214,173,88,.08);
+    input, textarea, select {
+      width: 100%;
+      background: var(--panel2);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 17px;
+      padding: 15px;
+      outline: none;
+      transition: .18s ease;
     }
 
-    textarea{
-      min-height:110px;
-      resize:vertical;
-      line-height:1.6;
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.6;
     }
 
-    .two-col{
-      display:grid;
-      gap:12px;
+    input::placeholder, textarea::placeholder {
+      color: #858fa3;
     }
 
-    .mode-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-      margin-top:4px;
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(216,174,85,.55);
+      box-shadow: 0 0 0 4px rgba(216,174,85,.08);
     }
 
-    .mode{
-      position:relative;
-      border:1px solid var(--stroke);
+    .preset-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 9px;
+      margin-bottom: 13px;
+    }
+
+    .preset {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 13px;
+      text-align: left;
+    }
+
+    .preset strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .preset span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .mode {
+      position: relative;
+      min-height: 105px;
+      border-radius: 20px;
+      padding: 14px;
       background:
-        radial-gradient(circle at top right, rgba(255,255,255,.06), transparent 30%),
-        #131824;
-      color:var(--text);
-      border-radius:20px;
-      padding:16px 12px;
-      min-height:110px;
-      text-align:left;
-      overflow:hidden;
+        radial-gradient(circle at top right, rgba(255,255,255,.07), transparent 35%),
+        #141925;
+      border: 1px solid var(--line);
+      color: var(--text);
+      text-align: left;
+      overflow: hidden;
     }
 
-    .mode.active{
+    .mode.active {
       background:
-        radial-gradient(circle at top right, rgba(255,255,255,.14), transparent 35%),
-        linear-gradient(135deg, rgba(214,173,88,.96), rgba(255,123,44,.95));
-      color:#111;
-      border-color:transparent;
-      box-shadow:0 16px 40px rgba(214,173,88,.18);
+        radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 38%),
+        linear-gradient(135deg, var(--gold2), var(--orange));
+      color: #101010;
+      border-color: transparent;
+      box-shadow: 0 18px 44px rgba(216,174,85,.18);
     }
 
-    .mode .icon{
-      font-size:20px;
-      display:inline-flex;
-      margin-bottom:10px;
+    .mode .icon {
+      font-size: 22px;
+      margin-bottom: 9px;
     }
 
-    .mode strong{
-      display:block;
-      font-size:18px;
-      letter-spacing:-.02em;
+    .mode strong {
+      display: block;
+      font-size: 17px;
+      letter-spacing: -.025em;
     }
 
-    .mode span{
-      display:block;
-      margin-top:6px;
-      font-size:13px;
-      line-height:1.45;
-      color:#b9c1d0;
+    .mode span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
     }
 
-    .mode.active span{color:#1b1b1b}
+    .mode.active span {
+      color: rgba(0,0,0,.74);
+    }
 
-    .active-box{
-      margin-top:16px;
-      border-radius:20px;
-      padding:18px;
+    .mode-card {
+      margin-top: 15px;
       background:
-        linear-gradient(90deg, rgba(214,173,88,.14), rgba(255,255,255,.02)),
-        #121620;
-      border:1px solid var(--stroke);
-      border-left:4px solid var(--gold);
+        linear-gradient(90deg, rgba(216,174,85,.15), rgba(255,255,255,.02)),
+        #121722;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      border-radius: 22px;
+      padding: 17px;
     }
 
-    .active-box h4{
-      margin:0 0 8px;
-      font-size:22px;
-      letter-spacing:-.03em;
+    .mode-card h4 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      letter-spacing: -.035em;
     }
 
-    .active-box p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:15px;
+    .mode-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
     }
 
-    .action-row{
-      display:grid;
-      gap:10px;
-      margin-top:16px;
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 15px;
     }
 
-    .btn-generate{
-      width:100%;
-      background:linear-gradient(135deg,var(--gold-2),var(--gold));
-      color:#111;
-      border-radius:18px;
-      padding:17px 18px;
-      font-weight:900;
-      font-size:17px;
-      box-shadow:0 16px 34px rgba(214,173,88,.24);
+    .btn-main {
+      border-radius: 18px;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold2), var(--gold));
+      color: #111;
+      font-weight: 950;
+      box-shadow: 0 16px 38px rgba(216,174,85,.2);
     }
 
-    .btn-ghost{
-      width:100%;
-      background:#1a1f2d;
-      color:var(--text);
-      border:1px solid var(--stroke);
-      border-radius:18px;
-      padding:15px 16px;
-      font-weight:800;
+    .btn-dark {
+      border-radius: 18px;
+      padding: 15px;
+      background: var(--panel3);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 850;
     }
 
-    .output-shell{
-      position:relative;
-    }
-
-    .output{
-      min-height:340px;
-      border-radius:24px;
-      border:1px solid var(--stroke);
+    .output {
+      min-height: 360px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
       background:
-        radial-gradient(circle at top right, rgba(214,173,88,.10), transparent 28%),
+        radial-gradient(circle at top right, rgba(216,174,85,.10), transparent 30%),
         linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
         #10141d;
-      padding:20px;
-      white-space:pre-wrap;
-      line-height:1.72;
-      font-size:15px;
-      color:#eef2f9;
-      overflow:auto;
+      color: #eef2f8;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow: auto;
+      font-size: 14px;
     }
 
-    .loading{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      color:#fff;
-      font-weight:800;
-      font-size:18px;
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 850;
+      font-size: 16px;
     }
 
-    .spinner{
-      width:22px;height:22px;
-      border-radius:50%;
-      border:3px solid rgba(255,255,255,.16);
-      border-top-color:var(--gold-2);
-      animation:spin .8s linear infinite;
+    .spinner {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,.16);
+      border-top-color: var(--gold2);
+      animation: spin .8s linear infinite;
     }
 
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    .hint{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform:translateX(-50%) translateY(16px);
-      background:#171c28;
-      color:#fff;
-      border:1px solid var(--stroke);
-      border-radius:999px;
-      padding:12px 16px;
-      font-size:13px;
-      opacity:0;
-      pointer-events:none;
-      transition:.18s ease;
-      z-index:50;
+    .history-list {
+      display: grid;
+      gap: 9px;
     }
 
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(0);
+    .history-item {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      border-radius: 17px;
+      padding: 12px;
+      color: var(--text);
+      text-align: left;
     }
 
-    .footer-note{
-      margin-top:18px;
-      color:var(--muted-2);
-      text-align:center;
-      font-size:12px;
-      line-height:1.7;
+    .history-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
     }
 
-    @media (min-width: 720px){
-      .app{padding:22px 20px 40px}
-      .two-col{grid-template-columns:1fr 1fr}
-      .mode-grid{grid-template-columns:repeat(4,1fr)}
-      .action-row{grid-template-columns:1fr 180px}
+    .history-item span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      width: min(92%, 560px);
+      z-index: 30;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: rgba(17,20,29,.88);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 8px;
+      box-shadow: 0 20px 70px rgba(0,0,0,.45);
+    }
+
+    .nav-btn {
+      background: transparent;
+      color: var(--muted);
+      border-radius: 16px;
+      padding: 10px 4px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .nav-btn.active {
+      background: rgba(216,174,85,.15);
+      color: var(--gold2);
+    }
+
+    .nav-btn span {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 92px;
+      left: 50%;
+      transform: translateX(-50%) translateY(14px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+      border: 1px solid var(--line);
+      background: #171c28;
+      color: var(--text);
+      padding: 12px 15px;
+      border-radius: 999px;
+      font-size: 13px;
+      transition: .18s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .hide {
+      display: none;
+    }
+
+    @media (min-width: 720px) {
+      .app { padding: 18px 20px 34px; }
+      .quick-row { grid-template-columns: repeat(4, 1fr); }
+      .preset-grid { grid-template-columns: repeat(3, 1fr); }
+      .modes { grid-template-columns: repeat(4, 1fr); }
+      .actions { grid-template-columns: 1fr 170px 170px; }
+      .two { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
     }
   </style>
 </head>
+
 <body>
-  <div class="app">
+  <main class="app">
     <div class="topbar">
       <div class="brand">
-        <div class="logo">CP</div>
-        <div class="brand-text">
-          <h1>CreatorPilot AI</h1>
-          <p>Premium Content Workspace</p>
+        <div class="brand-left">
+          <div class="logo">CP</div>
+          <div>
+            <h1>CreatorPilot AI</h1>
+            <p>AI Content Strategy Dashboard</p>
+          </div>
+        </div>
+        <div class="status">
+          <span class="dot"></span>
+          Dummy
         </div>
       </div>
     </div>
 
-    <section class="hero">
-      <div class="badge">Untuk creator, UMKM, dan personal brand</div>
-      <h2>Buat konten yang lebih tajam, bukan sekadar lebih banyak.</h2>
+    <section class="hero" id="home">
+      <div class="eyebrow">Creator · UMKM · Personal Brand</div>
+      <h2>Strategi konten yang terasa seperti kerja tim, bukan form biasa.</h2>
       <p>
-        Ruang kerja AI untuk menyusun ide, hook, caption, carousel, kalender konten,
-        repurpose, dan audit growth dalam satu tempat.
+        Bangun ide, hook, caption, carousel, growth plan, dan repurpose dalam satu dashboard.
+        V2 ini dibuat lebih mirip aplikasi: cepat dipakai, rapi, dan mobile-first.
       </p>
 
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="scrollToWorkspace()">Mulai buat konten</button>
-        <button class="btn-secondary" onclick="fillExample()">Pakai contoh</button>
-      </div>
-
-      <div class="stats">
-        <div class="stat">
-          <strong>8</strong>
-          <span>mode kerja konten</span>
-        </div>
-        <div class="stat">
-          <strong>1</strong>
-          <span>workspace ringkas</span>
-        </div>
-        <div class="stat">
-          <strong>0</strong>
-          <span>API dibutuhkan sekarang</span>
-        </div>
+      <div class="quick-row">
+        <button class="quick" onclick="loadPreset('creator')">
+          <strong>Creator</strong>
+          <span>Bangun personal brand dengan angle tajam.</span>
+        </button>
+        <button class="quick" onclick="loadPreset('umkm')">
+          <strong>UMKM</strong>
+          <span>Konten jualan yang tidak terasa murahan.</span>
+        </button>
+        <button class="quick" onclick="loadPreset('ai')">
+          <strong>AI Edukasi</strong>
+          <span>Konten AI yang ringan dan saveable.</span>
+        </button>
+        <button class="quick" onclick="loadPreset('growth')">
+          <strong>Growth</strong>
+          <span>Audit kenapa konten belum naik.</span>
+        </button>
       </div>
     </section>
 
     <section class="workspace" id="workspace">
-      <div class="panel">
-        <div class="panel-title">
-          <h3>Input Strategi</h3>
-          <div class="mini">v1 dummy</div>
+      <div class="panel" id="inputPanel">
+        <div class="panel-head">
+          <div>
+            <h3>Input Strategi</h3>
+            <p>Semakin spesifik input, semakin tajam output.</p>
+          </div>
+          <div class="pill">Step 1</div>
         </div>
 
-        <div class="two-col">
+        <div class="two">
           <div class="field">
             <label>Niche</label>
             <select id="niche">
-              <option value="Creator & Personal Brand">Creator & Personal Brand</option>
-              <option value="UMKM & Bisnis Kecil">UMKM & Bisnis Kecil</option>
-              <option value="AI & Productivity">AI & Productivity</option>
-              <option value="Mindset & Growth">Mindset & Growth</option>
-              <option value="Relationship">Relationship</option>
-              <option value="Storytelling">Storytelling</option>
+              <option>Creator & Personal Brand</option>
+              <option>UMKM & Bisnis Kecil</option>
+              <option>AI & Produktivitas</option>
+              <option>Mindset & Growth</option>
+              <option>Edukasi</option>
+              <option>Relationship</option>
+              <option>Storytelling</option>
             </select>
           </div>
 
           <div class="field">
             <label>Target audiens</label>
-            <input id="audience" placeholder="Contoh: owner coffee shop, creator pemula, gen Z, buyer lokal" />
+            <input id="audience" placeholder="Contoh: creator pemula, owner coffee shop, gen Z" />
           </div>
         </div>
 
         <div class="field">
-          <label>Premis / topik utama</label>
-          <textarea id="topic" placeholder="Contoh: Kenapa banyak UMKM posting tiap hari tapi tetap tidak diingat orang?"></textarea>
+          <label>Premis / topik</label>
+          <textarea id="topic" placeholder="Contoh: Kenapa banyak bisnis kecil posting tiap hari tapi tetap tidak diingat orang?"></textarea>
         </div>
 
         <div class="field">
           <label>Konteks tambahan</label>
-          <textarea id="context" placeholder="Contoh: target konten untuk Instagram carousel, tone tajam tapi tetap ringan, ingin banyak save dan share."></textarea>
+          <textarea id="context" placeholder="Contoh: Format carousel, tone tajam tapi tetap ringan, ingin banyak save/share."></textarea>
+        </div>
+
+        <div class="preset-grid">
+          <button class="preset" onclick="loadPreset('creator')">
+            <strong>Preset Creator</strong>
+            <span>Untuk personal brand dan konten edukasi.</span>
+          </button>
+          <button class="preset" onclick="loadPreset('umkm')">
+            <strong>Preset UMKM</strong>
+            <span>Untuk produk, toko, jasa, dan bisnis lokal.</span>
+          </button>
+          <button class="preset" onclick="loadPreset('growth')">
+            <strong>Preset Growth</strong>
+            <span>Untuk audit konten yang sepi.</span>
+          </button>
         </div>
       </div>
 
-      <div class="panel">
-        <div class="panel-title">
-          <h3>Pilih Mode</h3>
-          <div class="mini">mobile-first</div>
+      <div class="panel" id="modePanel">
+        <div class="panel-head">
+          <div>
+            <h3>Mode Kerja</h3>
+            <p>Pilih output yang ingin dibuat.</p>
+          </div>
+          <div class="pill">Step 2</div>
         </div>
 
-        <div class="mode-grid">
-          <button class="mode active" data-mode="ide">
+        <div class="modes">
+          <button class="mode active" data-mode="auto">
+            <div class="icon">🤖</div>
+            <strong>Auto</strong>
+            <span>Paket lengkap</span>
+          </button>
+          <button class="mode" data-mode="ide">
             <div class="icon">💡</div>
             <strong>Ide</strong>
-            <span>Angle konten anti-generik</span>
+            <span>Angle tajam</span>
           </button>
-
           <button class="mode" data-mode="hook">
             <div class="icon">🎯</div>
             <strong>Hook</strong>
-            <span>3 detik pertama</span>
+            <span>Stop scroll</span>
           </button>
-
           <button class="mode" data-mode="caption">
             <div class="icon">✍️</div>
             <strong>Caption</strong>
-            <span>Hook, cerita, CTA</span>
+            <span>Cerita + CTA</span>
           </button>
-
-          <button class="mode" data-mode="auto">
-            <div class="icon">🤖</div>
-            <strong>Auto</strong>
-            <span>Paket konten lengkap</span>
-          </button>
-
           <button class="mode" data-mode="carousel">
             <div class="icon">🧩</div>
             <strong>Carousel</strong>
-            <span>Susunan slide</span>
+            <span>Slide format</span>
           </button>
-
-          <button class="mode" data-mode="calendar">
-            <div class="icon">🗓️</div>
-            <strong>Calendar</strong>
-            <span>Rencana posting</span>
-          </button>
-
-          <button class="mode" data-mode="repurpose">
-            <div class="icon">♻️</div>
-            <strong>Repurpose</strong>
-            <span>1 ide jadi banyak format</span>
-          </button>
-
           <button class="mode" data-mode="growth">
             <div class="icon">📈</div>
             <strong>Growth</strong>
-            <span>Evaluasi dan arah naik</span>
+            <span>Audit konten</span>
+          </button>
+          <button class="mode" data-mode="repurpose">
+            <div class="icon">♻️</div>
+            <strong>Repurpose</strong>
+            <span>1 ide banyak</span>
+          </button>
+          <button class="mode" data-mode="engage">
+            <div class="icon">💬</div>
+            <strong>Engage</strong>
+            <span>Komentar</span>
           </button>
         </div>
 
-        <div class="active-box">
-          <h4 id="modeTitle">💡 Ide — Ide Konten Tajam</h4>
+        <div class="mode-card">
+          <h4 id="modeTitle">🤖 Auto — Paket Konten Lengkap</h4>
           <p id="modeDesc">
-            Membuat ide konten yang lebih spesifik, lebih saveable, dan lebih terasa
-            relevan untuk audiens yang kamu tuju.
+            Ubah satu premis menjadi hook, angle, struktur konten, caption, CTA, dan kritik risiko gagal.
           </p>
         </div>
 
-        <div class="action-row">
-          <button class="btn-generate" onclick="generateOutput()">Generate strategi</button>
-          <button class="btn-ghost" onclick="copyOutput()">Copy output</button>
-        </div>
-
-        <div class="hint">
-          Saat ini mode dummy aktif. UI sudah terasa seperti aplikasi, dan nanti bisa
-          disambungkan ke API tanpa ubah tampilan besar-besaran.
+        <div class="actions">
+          <button class="btn-main" onclick="generateOutput()">Generate strategi</button>
+          <button class="btn-dark" onclick="copyOutput()">Copy</button>
+          <button class="btn-dark" onclick="clearWorkspace()">Clear</button>
         </div>
       </div>
 
-      <div class="panel output-shell">
-        <div class="panel-title">
-          <h3>Hasil Output</h3>
-          <div class="mini">siap disalin</div>
+      <div class="panel" id="outputPanel">
+        <div class="panel-head">
+          <div>
+            <h3>Output</h3>
+            <p>Hasil dummy dibuat seperti output AI agar flow aplikasi terasa.</p>
+          </div>
+          <div class="pill">Step 3</div>
         </div>
 
         <div class="output" id="output">
-Pilih mode, isi topik, lalu tekan "Generate strategi".
+Pilih preset atau isi input sendiri, lalu klik “Generate strategi”.
+        </div>
+      </div>
+
+      <div class="panel" id="historyPanel">
+        <div class="panel-head">
+          <div>
+            <h3>History</h3>
+            <p>Riwayat output selama halaman belum ditutup.</p>
+          </div>
+          <div class="pill" id="historyCount">0 item</div>
+        </div>
+
+        <div class="history-list" id="historyList">
+          <div class="history-item">
+            <strong>Belum ada history</strong>
+            <span>Generate output pertama untuk menyimpan riwayat.</span>
+          </div>
         </div>
       </div>
     </section>
+  </main>
 
-    <div class="footer-note">
-      CreatorPilot AI · dummy prototype · dirancang untuk rasa aplikasi, bukan sekadar landing page.
-    </div>
-  </div>
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="jumpTo('home', this)">
+      <span>🏠</span>Home
+    </button>
+    <button class="nav-btn" onclick="jumpTo('inputPanel', this)">
+      <span>📝</span>Input
+    </button>
+    <button class="nav-btn" onclick="jumpTo('modePanel', this)">
+      <span>⚙️</span>Mode
+    </button>
+    <button class="nav-btn" onclick="jumpTo('outputPanel', this)">
+      <span>📤</span>Output
+    </button>
+  </nav>
 
-  <div class="toast" id="toast">Output berhasil disalin.</div>
+  <div class="toast" id="toast">Berhasil disalin.</div>
 
   <script>
-    const modeInfo = {
-      ide: {
-        title: "💡 Ide — Ide Konten Tajam",
-        desc: "Membuat ide konten yang lebih spesifik, lebih saveable, dan lebih terasa relevan untuk audiens yang kamu tuju."
-      },
-      hook: {
-        title: "🎯 Hook — Stop Scroll",
-        desc: "Membuat pilihan hook yang lebih kuat untuk 3 detik pertama agar konten lebih sulit dilewati."
-      },
-      caption: {
-        title: "✍️ Caption — Narasi yang Nggak Hambar",
-        desc: "Menyusun caption dengan hook awal, inti cerita, reframing, dan CTA yang lebih natural."
-      },
+    let activeMode = "auto";
+    const history = [];
+
+    const modeCopy = {
       auto: {
         title: "🤖 Auto — Paket Konten Lengkap",
-        desc: "Mengubah satu premis menjadi hook, angle, susunan konten, caption, CTA, dan catatan risikonya."
-      },
-      carousel: {
-        title: "🧩 Carousel — Struktur Slide",
-        desc: "Membuat urutan slide yang lebih enak diikuti dan lebih tinggi peluang save/share-nya."
-      },
-      calendar: {
-        title: "🗓️ Calendar — Rencana Konten",
-        desc: "Membuat rencana beberapa hari ke depan agar konten terasa konsisten dan tetap punya variasi."
-      },
-      repurpose: {
-        title: "♻️ Repurpose — Satu Ide, Banyak Bentuk",
-        desc: "Mengembangkan satu ide menjadi banyak format supaya effort konten tidak terbuang."
-      },
-      growth: {
-        title: "📈 Growth — Arah Naik yang Lebih Jelas",
-        desc: "Mengevaluasi konten dari sisi save, share, komentar, dan positioning supaya tidak asal posting."
-      }
-    };
-
-    let activeMode = "ide";
-
-    document.querySelectorAll(".mode").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".mode").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        activeMode = btn.dataset.mode;
-        document.getElementById("modeTitle").textContent = modeInfo[activeMode].title;
-        document.getElementById("modeDesc").textContent = modeInfo[activeMode].desc;
-      });
-    });
-
-    function scrollToWorkspace() {
-      document.getElementById("workspace").scrollIntoView({ behavior: "smooth" });
-    }
-
-    function fillExample() {
-      document.getElementById("niche").value = "UMKM & Bisnis Kecil";
-      document.getElementById("audience").value = "owner coffee shop kecil dan personal brand lokal";
-      document.getElementById("topic").value = "Kenapa banyak bisnis kecil posting tiap hari tapi tetap tidak diingat orang?";
-      document.getElementById("context").value = "Format untuk Instagram carousel. Mau tone tajam, premium, mudah dipahami, dan berpotensi tinggi untuk save/share.";
-      scrollToWorkspace();
-    }
-
-    function getData() {
-      return {
-        niche: document.getElementById("niche").value || "Creator & Personal Brand",
-        audience: document.getElementById("audience").value.trim() || "creator dan pelaku usaha kecil",
-        topic: document.getElementById("topic").value.trim() || "cara membuat konten yang lebih tajam dan tidak generik",
-        context: document.getElementById("context").value.trim() || "ingin output yang relevan, spesifik, dan gampang dipakai"
-      };
-    }
-
-    function generateOutput() {
-      const output = document.getElementById("output");
-      output.innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          AI sedang menganalisis strategi...
-        </div>
-      `;
-
-      setTimeout(() => {
-        const data = getData();
-        output.textContent = buildOutput(activeMode, data);
-      }, 900);
-    }
-
-    function buildOutput(mode, data) {
-      if (mode === "ide") {
-        return `IDE KONTEN TAJAM
-
-NICHE:
-${data.niche}
-
-AUDIENS:
-${data.audience}
-
-PREMIS:
-${data.topic}
-
-ANGLE UTAMA:
-Banyak orang mengira konten sepi karena desain atau algoritma.
-Padahal sering kali masalah utamanya: pesannya tidak cukup tajam untuk diingat.
-
-HOOK UTAMA:
-"Konten kamu mungkin bukan kurang sering diposting.
-Kontenmu bisa jadi cuma belum cukup melekat."
-
-KENAPA ORANG BERHENTI SCROLL:
-Karena masalah ini sangat umum:
-orang sudah rajin posting, tapi tetap merasa tidak punya dampak.
-
-SAVE / SHARE POTENTIAL:
-Tinggi, karena bisa diposisikan sebagai bahan evaluasi sebelum posting.
-
-FORMAT YANG DISARANKAN:
-- Carousel 6 slide
-- Single-image quote + caption tajam
-- Video pendek 30–45 detik
-
-RISIKO GAGAL:
-Kalau bahasannya terlalu umum, audiens merasa ini cuma nasihat konten biasa.
-Solusinya: pakai contoh konkret dan bahasa yang lebih diagnosis-first.`;
-      }
-
-      if (mode === "hook") {
-        return `HOOK OPTIONS
-
-TOPIK:
-${data.topic}
-
-1. "Banyak konten gagal bukan karena jelek. Tapi karena terlalu aman."
-2. "Kalau kontenmu terus lewat begitu saja, masalahnya belum tentu algoritma."
-3. "Orang tidak ingat konten yang rapi. Orang ingat konten yang terasa kena."
-4. "Rajin posting tidak otomatis bikin orang peduli."
-5. "Masalah terbesar konten bukan sepi. Masalah terbesarnya: tidak menempel."
-6. "Kalau semua orang bisa bilang hal yang sama, kontenmu belum punya sudut tajam."
-7. "Konten yang disimpan biasanya bukan yang paling cantik. Tapi yang paling terasa berguna."
-8. "Sebelum bikin konten baru, cek dulu: ini relevan atau cuma ramai di kepala sendiri?"
-
-CATATAN:
-Pilih hook yang paling dekat dengan luka audiens, bukan yang paling puitis.`;
-      }
-
-      if (mode === "caption") {
-        return `CAPTION DRAFT
-
-${data.topic}
-
-Banyak orang sibuk cari cara supaya kontennya lebih sering naik.
-
-Padahal ada pertanyaan yang sering terlewat:
-kalau konten itu muncul di depan orang,
-apakah mereka langsung merasa,
-"ini gue banget"?
-atau cuma,
-"oke... lewat"?
-
-Konten yang tajam bukan sekadar menjelaskan sesuatu.
-Konten yang tajam membuat orang merasa dipahami,
-ditampar sedikit,
-lalu ingin menyimpan.
-
-Jadi sebelum posting lagi,
-jangan cuma tanya:
-"sudah rapi belum?"
-
-Tanya juga:
-"sudah cukup relevan belum?"
-
-CTA:
-Kalau mau, aku bisa bikin versi carousel dari topik ini juga.`;
-      }
-
-      if (mode === "auto") {
-        return `PAKET KONTEN LENGKAP
-
-TOPIK:
-${data.topic}
-
-AUDIENS:
-${data.audience}
-
-1. DIAGNOSIS:
-Masalah utama bukan kurang konten.
-Masalah utama: pesan konten terlalu umum dan kurang punya luka spesifik.
-
-2. COMMON BELIEF YANG DILAWAN:
-"Yang penting konsisten posting."
-
-3. REFRAME:
-Konsisten itu penting.
-Tapi kalau angle-nya kabur,
-kamu cuma konsisten membuat konten yang mudah dilewati.
-
-4. HOOK:
-"Kamu bukan kurang rajin bikin konten.
-Kamu bisa jadi cuma belum cukup tajam."
-
-5. STRUKTUR KONTEN:
-- Slide 1: hook besar
-- Slide 2: masalah yang dirasakan audiens
-- Slide 3: kenapa banyak orang salah diagnosis
-- Slide 4: mekanisme yang sebenarnya
-- Slide 5: contoh angle lemah vs angle tajam
-- Slide 6: CTA save
-
-6. CTA:
-"Simpan sebelum bikin konten berikutnya."
-
-7. RISIKO GAGAL:
-Kalau terlalu abstrak, konten terasa sok pintar.
-Kasih contoh nyata agar lebih membumi.`;
-      }
-
-      if (mode === "carousel") {
-        return `STRUKTUR CAROUSEL 6 SLIDE
-
-JUDUL BESAR:
-KENAPA KONTENMU TIDAK DIINGAT ORANG
-
-SLIDE 1 — HOOK
-Banyak konten gagal
-bukan karena jelek.
-Tapi karena tidak cukup melekat.
-
-SLIDE 2 — PROBLEM
-Orang sudah posting rutin.
-Sudah desain rapi.
-Sudah kasih informasi.
-Tapi tetap terasa lewat begitu saja.
-
-SLIDE 3 — SALAH DIAGNOSIS
-Lalu semua disalahkan:
-algoritma,
-jam posting,
-atau followers kecil.
-
-SLIDE 4 — MEKANISME
-Padahal yang sering kurang adalah:
-sudut pandang,
-ketajaman pesan,
-dan relevansi luka audiens.
-
-SLIDE 5 — CONTOH
-Angle lemah:
-"Cara bikin konten bagus."
-Angle lebih tajam:
-"Kenapa kontenmu rapi tapi tetap tidak diingat orang?"
-
-SLIDE 6 — CTA
-Simpan ini sebelum bikin postingan berikutnya.`;
-      }
-
-      if (mode === "calendar") {
-        return `KALENDER KONTEN 7 HARI
-
-NICHE:
-${data.niche}
-
-TARGET:
-${data.audience}
-
-HARI 1:
-Konten problem awareness
-Tema: masalah utama yang sering tidak disadari audiens
-
-HARI 2:
-Konten checklist
-Tema: indikator apakah kontenmu terlalu umum
-
-HARI 3:
-Konten opini tajam
-Tema: mitos yang sering dipercaya orang
-
-HARI 4:
-Konten edukasi
-Tema: bedanya konten informatif dan konten yang melekat
-
-HARI 5:
-Konten studi kasus
-Tema: contoh angle lemah vs angle kuat
-
-HARI 6:
-Konten CTA/saveable
-Tema: template evaluasi sebelum posting
-
-HARI 7:
-Repurpose
-Tema: rangkum 3 insight terbaik minggu ini jadi satu postingan.`;
-      }
-
-      if (mode === "repurpose") {
-        return `REPURPOSE PLAN
-
-IDE ASAL:
-${data.topic}
-
-UBAH MENJADI:
-
-1. Carousel:
-"Kenapa kontenmu tidak diingat orang?"
-
-2. Short video:
-Hook:
-"Masalah kontenmu belum tentu sepi. Bisa jadi cuma tidak cukup menempel."
-
-3. Story 3 frame:
-- Frame 1: kontenmu terasa lewat?
-- Frame 2: mungkin pesannya terlalu umum.
-- Frame 3: mau aku bikin checklist-nya?
-
-4. Caption reflektif:
-Bahas kenapa banyak creator terlalu fokus ke tampilan, bukan relevansi.
-
-5. Quote single image:
-"Konten yang kuat bukan cuma memberi informasi.
-Ia membuat orang merasa: ini buat gue."
-
-6. Thread:
-5 alasan kenapa kontenmu terlihat rapi tapi tetap tidak membekas.`;
-      }
-
-      return `GROWTH EVALUATION
-
-TOPIK:
-${data.topic}
-
-FOKUS EVALUASI:
-- Apakah hook cukup stop-scroll?
-- Apakah inti pesan cukup spesifik?
-- Apakah ada alasan jelas untuk save?
-- Apakah audiens merasa ini membahas luka mereka?
-
-3 PRIORITAS PERBAIKAN:
-1. Perjelas siapa konten ini untuk siapa.
-2. Kurangi bahasa yang terlalu umum.
-3. Tambah contoh nyata agar lebih shareable.
-
-METRIK YANG HARUS DIPANTAU:
-- save rate
-- share rate
-- komentar yang relevan
-- profile visit
-- retention sampai slide terakhir
-
-KESIMPULAN:
-Naik bukan berarti posting lebih banyak.
-Naik berarti pesanmu makin tepat,
-makin tajam,
-dan makin terasa penting.`;
-    }
-
-    function copyOutput() {
-      const output = document.getElementById("output").textContent.trim();
-      if (!output) return;
-
-      navigator.clipboard.writeText(output).then(() => {
-        const toast = document.getElementById("toast");
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 1600);
-      });
-    }
-  </script>
-</body>
-</html>
+        desc: "Ubah satu premis menjadi hook, angle, struktur konten, caption, CTA, dan kritik risiko gagal."
+ 
