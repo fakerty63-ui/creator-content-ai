@@ -786,4 +786,29 @@ Pilih preset atau isi input sendiri, lalu klik “Generate strategi”.
       auto: {
         title: "🤖 Auto — Paket Konten Lengkap",
         desc: "Ubah satu premis menjadi hook, angle, struktur konten, caption, CTA, dan kritik risiko gagal."
- 
+          
+ function jumpTo(id, btn) {
+  const target = document.getElementById(id);
+
+  if (!target) {
+    alert("Section tidak ditemukan: " + id);
+    return;
+  }
+
+  const topOffset = 95;
+  const targetTop =
+    target.getBoundingClientRect().top + window.pageYOffset - topOffset;
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: "smooth"
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(b => {
+    b.classList.remove("active");
+  });
+
+  if (btn) {
+    btn.classList.add("active");
+  }
+    }
