@@ -3,812 +3,818 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CreatorPilot AI</title>
-  <meta name="theme-color" content="#0B0D12" />
-
+  <title>Content AI V3</title>
   <style>
     :root {
-      --bg: #0b0d12;
-      --panel: #11141d;
-      --panel2: #171b27;
-      --panel3: #202637;
-      --text: #f6f7fb;
-      --muted: #a7afc1;
-      --muted2: #737d91;
-      --line: rgba(255,255,255,.09);
-      --gold: #d8ae55;
-      --gold2: #f3c96e;
-      --orange: #ff7b2c;
-      --green: #20c874;
-      --blue: #5b8cff;
-      --red: #ff6675;
-      --radius: 22px;
-      --shadow: 0 18px 60px rgba(0,0,0,.38);
+      --bg: #080808;
+      --card: #111111;
+      --card2: #171717;
+      --text: #f3f3f3;
+      --muted: #9a9a9a;
+      --line: #282828;
+      --gold: #c9a84c;
+      --danger: #ff5d5d;
+      --radius: 20px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      min-height: 100vh;
+      background: radial-gradient(circle at top, #1a1a1a 0%, #080808 42%, #000 100%);
       color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(216,174,85,.16), transparent 28%),
-        radial-gradient(circle at top right, rgba(255,123,44,.10), transparent 25%),
-        linear-gradient(180deg, #0b0d12 0%, #0f1320 45%, #0b0d12 100%);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      padding-bottom: 88px;
-    }
-
-    button, input, textarea, select {
-      font: inherit;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
     }
 
     .app {
-      max-width: 880px;
+      width: min(1100px, 100%);
       margin: 0 auto;
-      padding: 16px;
+      padding: 22px;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      padding: 10px 0 14px;
-      background: linear-gradient(180deg, rgba(11,13,18,.96), rgba(11,13,18,.72), transparent);
-      backdrop-filter: blur(16px);
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 22px;
     }
 
     .brand {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 12px;
-      box-shadow: var(--shadow);
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .brand-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--gold2), var(--gold));
-      color: #111;
-      font-weight: 950;
-      letter-spacing: -.06em;
-      flex: 0 0 auto;
-      box-shadow: 0 16px 36px rgba(216,174,85,.22);
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: -.04em;
-      line-height: 1.05;
-    }
-
-    .brand p {
-      margin: 4px 0 0;
-      color: var(--muted);
+    .badge {
+      width: fit-content;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      color: var(--gold);
+      padding: 6px 10px;
+      border-radius: 999px;
       font-size: 12px;
-      line-height: 1.3;
+      letter-spacing: 0.6px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 6vw, 54px);
+      letter-spacing: -1.8px;
+      line-height: 0.95;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 560px;
+      line-height: 1.6;
+      margin-top: 8px;
     }
 
     .status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 9px 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 12px;
+      background: rgba(201, 168, 76, 0.1);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      color: var(--gold);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13px;
       white-space: nowrap;
-      background: rgba(255,255,255,.035);
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 18px rgba(32,200,116,.8);
-    }
-
-    .hero {
-      margin-top: 14px;
-      background:
-        radial-gradient(circle at 88% 12%, rgba(216,174,85,.16), transparent 25%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
-        var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
-      border: 1px solid rgba(216,174,85,.24);
-      border-radius: 999px;
-      background: rgba(216,174,85,.09);
-      color: var(--gold2);
-      font-weight: 800;
-      font-size: 12px;
-      margin-bottom: 15px;
-    }
-
-    .hero h2 {
-      margin: 0;
-      font-size: clamp(34px, 8vw, 58px);
-      line-height: .96;
-      letter-spacing: -.06em;
-    }
-
-    .hero p {
-      margin: 15px 0 0;
-      color: #d8deea;
-      font-size: 16px;
-      line-height: 1.72;
-      max-width: 680px;
-    }
-
-    .quick-row {
+    .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 11px;
-      margin-top: 18px;
-    }
-
-    .quick {
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--line);
-      color: var(--text);
-      border-radius: 18px;
-      padding: 14px;
-      text-align: left;
-      min-height: 82px;
-    }
-
-    .quick strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    .quick span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .workspace {
-      display: grid;
-      gap: 15px;
-      margin-top: 15px;
+      grid-template-columns: 270px 1fr;
+      gap: 18px;
     }
 
     .panel {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
-        var(--panel);
+      background: rgba(17, 17, 17, 0.92);
       border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 18px;
-      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
 
-    .panel-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 14px;
+    .menu {
+      display: grid;
+      gap: 10px;
     }
 
-    .panel-head h3 {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: -.035em;
+    .menu button {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--card2);
+      color: var(--text);
+      padding: 14px 14px;
+      border-radius: 15px;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
     }
 
-    .panel-head p {
-      margin: 4px 0 0;
+    .menu button.active {
+      border-color: rgba(201, 168, 76, 0.7);
+      background: rgba(201, 168, 76, 0.14);
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.5;
+      margin-bottom: 8px;
     }
 
-    .pill {
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255,255,255,.035);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .field {
-      margin-bottom: 13px;
-    }
-
-    .field label {
-      display: block;
-      color: var(--gold2);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-    }
-
-    input, textarea, select {
+    select,
+    input,
+    textarea {
       width: 100%;
-      background: var(--panel2);
+      background: #0d0d0d;
+      border: 1px solid var(--line);
       color: var(--text);
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 17px;
-      padding: 15px;
+      border-radius: 14px;
+      padding: 13px;
+      font-size: 15px;
       outline: none;
-      transition: .18s ease;
     }
 
     textarea {
-      min-height: 110px;
+      min-height: 150px;
       resize: vertical;
-      line-height: 1.6;
+      line-height: 1.55;
     }
 
-    input::placeholder, textarea::placeholder {
-      color: #858fa3;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: rgba(216,174,85,.55);
-      box-shadow: 0 0 0 4px rgba(216,174,85,.08);
-    }
-
-    .preset-grid {
+    .form {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 9px;
-      margin-bottom: 13px;
+      gap: 14px;
     }
 
-    .preset {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.035);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 13px;
-      text-align: left;
-    }
-
-    .preset strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-
-    .preset span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .modes {
+    .row {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 11px;
-    }
-
-    .mode {
-      position: relative;
-      min-height: 105px;
-      border-radius: 20px;
-      padding: 14px;
-      background:
-        radial-gradient(circle at top right, rgba(255,255,255,.07), transparent 35%),
-        #141925;
-      border: 1px solid var(--line);
-      color: var(--text);
-      text-align: left;
-      overflow: hidden;
-    }
-
-    .mode.active {
-      background:
-        radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 38%),
-        linear-gradient(135deg, var(--gold2), var(--orange));
-      color: #101010;
-      border-color: transparent;
-      box-shadow: 0 18px 44px rgba(216,174,85,.18);
-    }
-
-    .mode .icon {
-      font-size: 22px;
-      margin-bottom: 9px;
-    }
-
-    .mode strong {
-      display: block;
-      font-size: 17px;
-      letter-spacing: -.025em;
-    }
-
-    .mode span {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .mode.active span {
-      color: rgba(0,0,0,.74);
-    }
-
-    .mode-card {
-      margin-top: 15px;
-      background:
-        linear-gradient(90deg, rgba(216,174,85,.15), rgba(255,255,255,.02)),
-        #121722;
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--gold);
-      border-radius: 22px;
-      padding: 17px;
-    }
-
-    .mode-card h4 {
-      margin: 0 0 8px;
-      font-size: 21px;
-      letter-spacing: -.035em;
-    }
-
-    .mode-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .actions {
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 4px;
+      flex-wrap: wrap;
     }
 
-    .btn-main {
-      border-radius: 18px;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--gold2), var(--gold));
-      color: #111;
-      font-weight: 950;
-      box-shadow: 0 16px 38px rgba(216,174,85,.2);
-    }
-
-    .btn-dark {
-      border-radius: 18px;
-      padding: 15px;
-      background: var(--panel3);
-      border: 1px solid var(--line);
-      color: var(--text);
-      font-weight: 850;
-    }
-
-    .output {
-      min-height: 360px;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 18px;
-      background:
-        radial-gradient(circle at top right, rgba(216,174,85,.10), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
-        #10141d;
-      color: #eef2f8;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      overflow: auto;
+    .primary,
+    .secondary,
+    .danger {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font-weight: 700;
+      cursor: pointer;
       font-size: 14px;
     }
 
-    .loading {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 850;
+    .primary {
+      background: var(--gold);
+      color: #111;
+    }
+
+    .secondary {
+      background: #222;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .danger {
+      background: rgba(255, 93, 93, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(255, 93, 93, 0.35);
+    }
+
+    .output {
+      margin-top: 18px;
+      background: #0b0b0b;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      min-height: 260px;
+      white-space: pre-wrap;
+      line-height: 1.65;
+      color: #eeeeee;
+      font-size: 15px;
+    }
+
+    .hint {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .mini-title {
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text);
       font-size: 16px;
     }
 
-    .spinner {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,.16);
-      border-top-color: var(--gold2);
-      animation: spin .8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .history-list {
-      display: grid;
-      gap: 9px;
-    }
-
-    .history-item {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.035);
-      border-radius: 17px;
-      padding: 12px;
-      color: var(--text);
-      text-align: left;
-    }
-
-    .history-item strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 13px;
-    }
-
-    .history-item span {
-      color: var(--muted);
+    .footer {
+      color: #666;
       font-size: 12px;
-      line-height: 1.45;
+      margin-top: 18px;
+      text-align: center;
     }
 
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      bottom: 14px;
-      transform: translateX(-50%);
-      width: min(92%, 560px);
-      z-index: 30;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      background: rgba(17,20,29,.88);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 8px;
-      box-shadow: 0 20px 70px rgba(0,0,0,.45);
-    }
+    @media (max-width: 820px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
 
-    .nav-btn {
-      background: transparent;
-      color: var(--muted);
-      border-radius: 16px;
-      padding: 10px 4px;
-      font-size: 11px;
-      font-weight: 800;
-    }
+      .top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
 
-    .nav-btn.active {
-      background: rgba(216,174,85,.15);
-      color: var(--gold2);
-    }
+      .status {
+        white-space: normal;
+      }
 
-    .nav-btn span {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 2px;
-    }
+      .row {
+        grid-template-columns: 1fr;
+      }
 
-    .toast {
-      position: fixed;
-      bottom: 92px;
-      left: 50%;
-      transform: translateX(-50%) translateY(14px);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 50;
-      border: 1px solid var(--line);
-      background: #171c28;
-      color: var(--text);
-      padding: 12px 15px;
-      border-radius: 999px;
-      font-size: 13px;
-      transition: .18s ease;
-    }
+      .menu {
+        grid-template-columns: repeat(2, 1fr);
+      }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .hide {
-      display: none;
-    }
-
-    @media (min-width: 720px) {
-      .app { padding: 18px 20px 34px; }
-      .quick-row { grid-template-columns: repeat(4, 1fr); }
-      .preset-grid { grid-template-columns: repeat(3, 1fr); }
-      .modes { grid-template-columns: repeat(4, 1fr); }
-      .actions { grid-template-columns: 1fr 170px 170px; }
-      .two { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+      .menu button {
+        text-align: center;
+        padding: 13px 8px;
+      }
     }
   </style>
 </head>
 
 <body>
   <main class="app">
-    <div class="topbar">
+    <section class="top">
       <div class="brand">
-        <div class="brand-left">
-          <div class="logo">CP</div>
-          <div>
-            <h1>CreatorPilot AI</h1>
-            <p>AI Content Strategy Dashboard</p>
-          </div>
-        </div>
-        <div class="status">
-          <span class="dot"></span>
-          Dummy
+        <div class="badge">CONTENT AI V3</div>
+        <h1>Content<br>Operating System</h1>
+        <div class="sub">
+          Tool untuk bikin ide, hook, isi carousel, caption, growth plan, repurpose, dan engagement reply.
         </div>
       </div>
-    </div>
-
-    <section class="hero" id="home">
-      <div class="eyebrow">Creator · UMKM · Personal Brand</div>
-      <h2>Strategi konten yang terasa seperti kerja tim, bukan form biasa.</h2>
-      <p>
-        Bangun ide, hook, caption, carousel, growth plan, dan repurpose dalam satu dashboard.
-        V2 ini dibuat lebih mirip aplikasi: cepat dipakai, rapi, dan mobile-first.
-      </p>
-
-      <div class="quick-row">
-        <button class="quick" onclick="loadPreset('creator')">
-          <strong>Creator</strong>
-          <span>Bangun personal brand dengan angle tajam.</span>
-        </button>
-        <button class="quick" onclick="loadPreset('umkm')">
-          <strong>UMKM</strong>
-          <span>Konten jualan yang tidak terasa murahan.</span>
-        </button>
-        <button class="quick" onclick="loadPreset('ai')">
-          <strong>AI Edukasi</strong>
-          <span>Konten AI yang ringan dan saveable.</span>
-        </button>
-        <button class="quick" onclick="loadPreset('growth')">
-          <strong>Growth</strong>
-          <span>Audit kenapa konten belum naik.</span>
-        </button>
-      </div>
+      <div class="status" id="modeStatus">Mode: Template Lokal</div>
     </section>
 
-    <section class="workspace" id="workspace">
-      <div class="panel" id="inputPanel">
-        <div class="panel-head">
+    <section class="grid">
+      <aside class="panel">
+        <div class="mini-title">Menu</div>
+        <div class="menu">
+          <button class="active" onclick="setMode('isi', this)">Isi</button>
+          <button onclick="setMode('ide', this)">Ide</button>
+          <button onclick="setMode('caption', this)">Caption</button>
+          <button onclick="setMode('auto', this)">Auto</button>
+          <button onclick="setMode('growth', this)">Growth</button>
+          <button onclick="setMode('hook', this)">Hook</button>
+          <button onclick="setMode('repurpose', this)">Repurpose</button>
+          <button onclick="setMode('engage', this)">Engage</button>
+        </div>
+
+        <div class="hint">
+          V3 ini sudah bisa jalan tanpa API. Kalau nanti mau AI beneran, sambungkan backend OpenAI. Jangan taruh API key langsung di file ini.
+        </div>
+      </aside>
+
+      <section class="panel">
+        <div class="form">
+          <div class="row">
+            <div>
+              <label>Akun / Niche</label>
+              <select id="niche">
+                <option value="Nevergiveup">Nevergiveup — AI, mindset, ekonomi sosial</option>
+                <option value="Relationship">Relationship — hubungan & emosi</option>
+                <option value="DanStoryVerse">DanStoryVerse — manhwa/storytelling</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Format Output</label>
+              <select id="format">
+                <option value="Carousel">Carousel</option>
+                <option value="Script Video">Script Video</option>
+                <option value="Single Image">Single Image</option>
+                <option value="Caption">Caption</option>
+              </select>
+            </div>
+          </div>
+
           <div>
-            <h3>Input Strategi</h3>
-            <p>Semakin spesifik input, semakin tajam output.</p>
-          </div>
-          <div class="pill">Step 1</div>
-        </div>
-
-        <div class="two">
-          <div class="field">
-            <label>Niche</label>
-            <select id="niche">
-              <option>Creator & Personal Brand</option>
-              <option>UMKM & Bisnis Kecil</option>
-              <option>AI & Produktivitas</option>
-              <option>Mindset & Growth</option>
-              <option>Edukasi</option>
-              <option>Relationship</option>
-              <option>Storytelling</option>
-            </select>
+            <label>Topik / Premis</label>
+            <input id="topic" placeholder="Contoh: banyak orang pakai AI tapi hasilnya tetap biasa" />
           </div>
 
-          <div class="field">
-            <label>Target audiens</label>
-            <input id="audience" placeholder="Contoh: creator pemula, owner coffee shop, gen Z" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Premis / topik</label>
-          <textarea id="topic" placeholder="Contoh: Kenapa banyak bisnis kecil posting tiap hari tapi tetap tidak diingat orang?"></textarea>
-        </div>
-
-        <div class="field">
-          <label>Konteks tambahan</label>
-          <textarea id="context" placeholder="Contoh: Format carousel, tone tajam tapi tetap ringan, ingin banyak save/share."></textarea>
-        </div>
-
-        <div class="preset-grid">
-          <button class="preset" onclick="loadPreset('creator')">
-            <strong>Preset Creator</strong>
-            <span>Untuk personal brand dan konten edukasi.</span>
-          </button>
-          <button class="preset" onclick="loadPreset('umkm')">
-            <strong>Preset UMKM</strong>
-            <span>Untuk produk, toko, jasa, dan bisnis lokal.</span>
-          </button>
-          <button class="preset" onclick="loadPreset('growth')">
-            <strong>Preset Growth</strong>
-            <span>Untuk audit konten yang sepi.</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="panel" id="modePanel">
-        <div class="panel-head">
           <div>
-            <h3>Mode Kerja</h3>
-            <p>Pilih output yang ingin dibuat.</p>
+            <label>Catatan Tambahan</label>
+            <textarea id="notes" placeholder="Masukkan konteks, target audiens, gaya bahasa, masalah utama, atau draft kasar..."></textarea>
           </div>
-          <div class="pill">Step 2</div>
-        </div>
 
-        <div class="modes">
-          <button class="mode active" data-mode="auto">
-            <div class="icon">🤖</div>
-            <strong>Auto</strong>
-            <span>Paket lengkap</span>
-          </button>
-          <button class="mode" data-mode="ide">
-            <div class="icon">💡</div>
-            <strong>Ide</strong>
-            <span>Angle tajam</span>
-          </button>
-          <button class="mode" data-mode="hook">
-            <div class="icon">🎯</div>
-            <strong>Hook</strong>
-            <span>Stop scroll</span>
-          </button>
-          <button class="mode" data-mode="caption">
-            <div class="icon">✍️</div>
-            <strong>Caption</strong>
-            <span>Cerita + CTA</span>
-          </button>
-          <button class="mode" data-mode="carousel">
-            <div class="icon">🧩</div>
-            <strong>Carousel</strong>
-            <span>Slide format</span>
-          </button>
-          <button class="mode" data-mode="growth">
-            <div class="icon">📈</div>
-            <strong>Growth</strong>
-            <span>Audit konten</span>
-          </button>
-          <button class="mode" data-mode="repurpose">
-            <div class="icon">♻️</div>
-            <strong>Repurpose</strong>
-            <span>1 ide banyak</span>
-          </button>
-          <button class="mode" data-mode="engage">
-            <div class="icon">💬</div>
-            <strong>Engage</strong>
-            <span>Komentar</span>
-          </button>
-        </div>
-
-        <div class="mode-card">
-          <h4 id="modeTitle">🤖 Auto — Paket Konten Lengkap</h4>
-          <p id="modeDesc">
-            Ubah satu premis menjadi hook, angle, struktur konten, caption, CTA, dan kritik risiko gagal.
-          </p>
-        </div>
-
-        <div class="actions">
-          <button class="btn-main" onclick="generateOutput()">Generate strategi</button>
-          <button class="btn-dark" onclick="copyOutput()">Copy</button>
-          <button class="btn-dark" onclick="clearWorkspace()">Clear</button>
-        </div>
-      </div>
-
-      <div class="panel" id="outputPanel">
-        <div class="panel-head">
-          <div>
-            <h3>Output</h3>
-            <p>Hasil dummy dibuat seperti output AI agar flow aplikasi terasa.</p>
-          </div>
-          <div class="pill">Step 3</div>
-        </div>
-
-        <div class="output" id="output">
-Pilih preset atau isi input sendiri, lalu klik “Generate strategi”.
-        </div>
-      </div>
-
-      <div class="panel" id="historyPanel">
-        <div class="panel-head">
-          <div>
-            <h3>History</h3>
-            <p>Riwayat output selama halaman belum ditutup.</p>
-          </div>
-          <div class="pill" id="historyCount">0 item</div>
-        </div>
-
-        <div class="history-list" id="historyList">
-          <div class="history-item">
-            <strong>Belum ada history</strong>
-            <span>Generate output pertama untuk menyimpan riwayat.</span>
+          <div class="actions">
+            <button class="primary" onclick="generate()">Generate V3</button>
+            <button class="secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="danger" onclick="clearAll()">Reset</button>
           </div>
         </div>
-      </div>
+
+        <div class="output" id="output">Output akan muncul di sini.</div>
+      </section>
     </section>
+
+    <div class="footer">V3 — built for fast content drafting</div>
   </main>
 
-  <nav class="bottom-nav">
-    <button class="nav-btn active" onclick="jumpTo('home', this)">
-      <span>🏠</span>Home
-    </button>
-    <button class="nav-btn" onclick="jumpTo('inputPanel', this)">
-      <span>📝</span>Input
-    </button>
-    <button class="nav-btn" onclick="jumpTo('modePanel', this)">
-      <span>⚙️</span>Mode
-    </button>
-    <button class="nav-btn" onclick="jumpTo('outputPanel', this)">
-      <span>📤</span>Output
-    </button>
-  </nav>
-
-  <div class="toast" id="toast">Berhasil disalin.</div>
-
   <script>
-    let activeMode = "auto";
-    const history = [];
+    let currentMode = "isi";
 
-    const modeCopy = {
-      auto: {
-        title: "🤖 Auto — Paket Konten Lengkap",
-        desc: "Ubah satu premis menjadi hook, angle, struktur konten, caption, CTA, dan kritik risiko gagal."
-          
- function jumpTo(id, btn) {
-  const target = document.getElementById(id);
+    const modeNames = {
+      isi: "Isi",
+      ide: "Ide",
+      caption: "Caption",
+      auto: "Auto",
+      growth: "Growth",
+      hook: "Hook",
+      repurpose: "Repurpose",
+      engage: "Engage"
+    };
 
-  if (!target) {
-    alert("Section tidak ditemukan: " + id);
-    return;
-  }
-
-  const topOffset = 95;
-  const targetTop =
-    target.getBoundingClientRect().top + window.pageYOffset - topOffset;
-
-  window.scrollTo({
-    top: targetTop,
-    behavior: "smooth"
-  });
-
-  document.querySelectorAll(".nav-btn").forEach(b => {
-    b.classList.remove("active");
-  });
-
-  if (btn) {
-    btn.classList.add("active");
-  }
+    function setMode(mode, btn) {
+      currentMode = mode;
+      document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("output").textContent = "Mode aktif: " + modeNames[mode] + "\\n\\nMasukkan topik, lalu klik Generate V3.";
     }
+
+    function getTone(niche) {
+      if (niche === "Nevergiveup") {
+        return {
+          audience: "orang Indonesia usia 18–32 yang ingin naik kelas secara sosial dan ekonomi",
+          tone: "tajam, realistis, conversational, pakai lo/gue, tidak motivational kosong",
+          cta: "Follow untuk mindset realistis, AI, dan cara berpikir naik kelas.\\n1% lebih baik setiap hari."
+        };
+      }
+
+      if (niche === "Relationship") {
+        return {
+          audience: "orang yang sedang bingung, capek nebak-nebak, dan ingin memahami hubungan tanpa diceramahi",
+          tone: "emosional, natural, lembut tapi tetap jujur, tidak terlalu psikologis",
+          cta: "Menurut kamu, bagian mana yang paling sering bikin hubungan rusak?"
+        };
+      }
+
+      return {
+        audience: "penonton yang suka manhwa, cerita gelap, karakter dingin, dan konflik sistem",
+        tone: "cinematic, gelap, dramatis, dialog minim, tension tinggi",
+        cta: "Follow untuk lanjutan chapter berikutnya."
+      };
+    }
+
+    function generate() {
+      const niche = document.getElementById("niche").value;
+      const format = document.getElementById("format").value;
+      const topic = document.getElementById("topic").value.trim();
+      const notes = document.getElementById("notes").value.trim();
+      const profile = getTone(niche);
+
+      if (!topic) {
+        document.getElementById("output").textContent = "Isi dulu topik/premisnya.";
+        return;
+      }
+
+      let result = "";
+
+      if (currentMode === "ide") {
+        result = makeIdeas(niche, topic, profile);
+      }
+
+      if (currentMode === "hook") {
+        result = makeHooks(niche, topic, profile);
+      }
+
+      if (currentMode === "isi") {
+        result = makeContent(niche, format, topic, notes, profile);
+      }
+
+      if (currentMode === "caption") {
+        result = makeCaption(niche, topic, profile);
+      }
+
+      if (currentMode === "auto") {
+        result = makeAuto(niche, topic, notes, profile);
+      }
+
+      if (currentMode === "growth") {
+        result = makeGrowth(niche, topic, profile);
+      }
+
+      if (currentMode === "repurpose") {
+        result = makeRepurpose(niche, topic, profile);
+      }
+
+      if (currentMode === "engage") {
+        result = makeEngage(niche, topic, profile);
+      }
+
+      document.getElementById("output").textContent = result;
+    }
+
+    function makeIdeas(niche, topic, profile) {
+      return `MODE: IDE
+NICHE: ${niche}
+TOPIK BESAR: ${topic}
+
+Target audiens:
+${profile.audience}
+
+20 IDE KONTEN:
+
+1. Kenapa ${topic} sering disalahpahami orang biasa
+2. Kesalahan paling umum saat membahas ${topic}
+3. Hal yang tidak diajarkan sekolah tentang ${topic}
+4. Cara melihat ${topic} dari sudut pandang orang yang lebih strategis
+5. Kenapa kerja keras saja tidak cukup kalau tidak paham sistem
+6. Bedanya orang yang sekadar ikut tren dan orang yang membaca pola
+7. Satu hal kecil yang bikin hasil seseorang berbeda jauh
+8. Kenapa banyak orang merasa sudah berusaha tapi tetap stuck
+9. Kebiasaan yang terlihat normal tapi diam-diam merugikan
+10. Cara mengevaluasi diri tanpa menyalahkan diri sendiri
+11. Pertanyaan yang harus lo tanyakan sebelum ikut tren
+12. Kenapa skill populer belum tentu bikin hidup berubah
+13. Bagaimana orang elite membaca peluang lebih cepat
+14. Sinyal bahwa lo sedang main di aturan yang salah
+15. Cara mengubah pengetahuan jadi nilai yang dilihat orang
+16. Kenapa akses sering lebih mahal daripada skill
+17. Masalah yang kelihatan personal padahal sebenarnya sistemik
+18. Hal yang harus dihentikan kalau ingin naik level
+19. Checklist sebelum mengambil keputusan besar
+20. Framework simpel untuk melihat ${topic} dengan lebih tajam
+
+Catatan gaya:
+${profile.tone}`;
+    }
+
+    function makeHooks(niche, topic, profile) {
+      return `MODE: HOOK
+NICHE: ${niche}
+TOPIK: ${topic}
+
+10 HOOK KUAT:
+
+1. Banyak orang salah paham soal ${topic}.
+2. Masalahnya bukan lo kurang usaha. Masalahnya lo membaca aturan yang salah.
+3. Ini alasan kenapa ${topic} bikin banyak orang stuck.
+4. Lo mungkin merasa ini normal. Padahal ini yang bikin hidup lo jalan di tempat.
+5. Orang biasa melihat ${topic} sebagai masalah pribadi. Orang tajam melihat polanya.
+6. Jangan buru-buru ikut tren sebelum paham ini.
+7. Hal kecil ini sering bikin orang kalah sebelum mulai.
+8. Yang bikin lo tertinggal bukan cuma skill. Tapi cara lo membaca permainan.
+9. Kalau lo masih mikir seperti ini, hasil lo akan tetap sama.
+10. Ini bukan motivasi. Ini cara kerja sistem yang jarang dibahas.
+
+HOOK PALING DIREKOMENDASIKAN:
+Banyak orang salah paham soal ${topic}.
+
+Kenapa kuat:
+- Singkat
+- Mudah dipahami
+- Bikin penasaran
+- Bisa masuk ke edukasi, kritik, atau carousel analitis`;
+    }
+
+    function makeContent(niche, format, topic, notes, profile) {
+      if (format === "Carousel") {
+        return `MODE: ISI CAROUSEL
+NICHE: ${niche}
+TOPIK: ${topic}
+
+AUDIT PREMIS:
+Broad audience problem:
+Banyak orang mengalami masalah ini, tapi sering menganggapnya sebagai masalah pribadi.
+
+Luka spesifik:
+Mereka merasa sudah berusaha, tapi hasilnya tidak sebanding.
+
+Belief yang dilawan:
+"Kalau gue kerja keras, otomatis hidup gue naik."
+
+Diagnosis:
+Kerja keras tanpa membaca aturan main hanya membuat seseorang sibuk, bukan naik level.
+
+THESIS:
+${topic} bukan cuma soal usaha. Ini soal apakah lo paham pola, nilai, dan aturan mainnya.
+
+CAROUSEL 7 SLIDE:
+
+SLIDE 1 — HOOK
+Banyak orang salah paham soal ${topic}.
+
+SLIDE 2 — MASALAH RELATE
+Lo merasa sudah belajar.
+Sudah coba produktif.
+Sudah ikut banyak saran.
+Tapi hasilnya tetap terasa biasa.
+
+SLIDE 3 — TAMPAKAN YANG LEBIH TAJAM
+Masalahnya bukan selalu karena lo malas.
+Kadang masalahnya:
+lo bergerak di sistem yang tidak lo pahami.
+
+SLIDE 4 — MEKANISME
+Di dunia nyata,
+yang dihargai bukan cuma effort.
+Tapi:
+- apa yang lo bisa selesaikan
+- siapa yang butuh kemampuan itu
+- seberapa langka posisi lo
+- seberapa besar dampaknya
+
+SLIDE 5 — CONTOH
+Dua orang bisa belajar hal yang sama.
+Tapi hasilnya beda.
+
+Yang satu cuma belajar skill.
+Yang satu lagi tahu skill itu dipakai untuk masalah apa,
+oleh siapa,
+dan kenapa orang mau bayar untuk itu.
+
+SLIDE 6 — REFRAME
+Jadi jangan cuma tanya:
+"Apa yang harus gue pelajari?"
+
+Tanya juga:
+"Skill ini bikin gue lebih bernilai di bagian mana?"
+
+SLIDE 7 — ACTION / CTA
+Checklist sebelum lo ikut tren baru:
+
+1. Ini menyelesaikan masalah siapa?
+2. Orang yang butuh ini punya uang atau akses?
+3. Bagian mana yang bikin gue beda?
+4. Apakah ini cuma ramai, atau benar-benar penting?
+
+${profile.cta}
+
+CATATAN TAMBAHAN:
+${notes || "-"}`;
+      }
+
+      if (format === "Script Video") {
+        return `MODE: SCRIPT VIDEO
+NICHE: ${niche}
+TOPIK: ${topic}
+
+OPENING:
+Banyak orang salah paham soal ${topic}.
+
+BODY:
+Lo bisa kerja keras.
+Lo bisa belajar banyak hal.
+Lo bisa ikut semua tren yang lagi ramai.
+
+Tapi kalau lo tidak paham aturan mainnya,
+lo cuma jadi orang sibuk.
+
+Masalahnya bukan cuma:
+"gue harus belajar apa?"
+
+Pertanyaan yang lebih penting:
+"skill ini dipakai untuk menyelesaikan masalah siapa?"
+"kenapa orang butuh ini?"
+"bagian mana yang bikin gue punya posisi lebih kuat?"
+
+Karena dunia nyata tidak memberi hadiah ke orang yang paling capek.
+Dunia nyata memberi ruang ke orang yang bisa memberi nilai yang jelas.
+
+CLOSING:
+Jadi sebelum ikut tren baru,
+jangan cuma tanya apakah ini populer.
+Tanya apakah ini bikin posisi lo lebih kuat.
+
+${profile.cta}`;
+      }
+
+      if (format === "Single Image") {
+        return `MODE: SINGLE IMAGE
+NICHE: ${niche}
+TOPIK: ${topic}
+
+TEKS UTAMA:
+Jangan cuma belajar hal yang ramai.
+Belajar membaca kenapa hal itu bernilai.
+
+TEKS KECIL:
+Skill bikin lo bisa bekerja.
+Tapi cara membaca sistem bikin lo tahu harus bergerak ke mana.
+
+CAPTION:
+Banyak orang ikut tren karena takut ketinggalan.
+Padahal yang lebih penting bukan sekadar ikut.
+Tapi paham kenapa tren itu muncul, siapa yang diuntungkan, dan bagian mana yang bisa lo pakai untuk naik level.
+
+${profile.cta}
+
+ARAH VISUAL:
+- Background hitam premium
+- Teks warm white
+- Aksen gold
+- Layout editorial
+- Banyak negative space
+- Jangan terlalu ramai`;
+      }
+
+      return makeCaption(niche, topic, profile);
+    }
+
+    function makeCaption(niche, topic, profile) {
+      return `MODE: CAPTION
+NICHE: ${niche}
+TOPIK: ${topic}
+
+CAPTION PENDEK:
+Banyak orang terlalu fokus ikut tren.
+
+Padahal yang bikin seseorang naik bukan cuma tahu apa yang sedang ramai.
+
+Tapi paham:
+kenapa itu penting,
+siapa yang butuh,
+dan bagaimana itu bisa bikin posisinya lebih kuat.
+
+Jangan cuma belajar skill.
+Belajar membaca nilai di balik skill.
+
+${profile.cta}
+
+HASHTAG:
+#MindsetRealistis
+#CaraBerpikir
+#NaikKelas
+#EkonomiSosial
+#BelajarAI`;
+    }
+
+    function makeAuto(niche, topic, notes, profile) {
+      return `MODE: AUTO GENERATOR
+NICHE: ${niche}
+
+INPUT:
+${topic}
+
+OUTPUT OTOMATIS:
+
+1. HOOK:
+Banyak orang salah paham soal ${topic}.
+
+2. MASALAH:
+Mereka terlalu fokus pada permukaan, tapi tidak membaca mekanisme di baliknya.
+
+3. DIAGNOSIS:
+Masalah ini terjadi karena orang sering mengikuti pola yang ramai tanpa tahu kenapa pola itu bekerja.
+
+4. ISI UTAMA:
+- Jangan cuma lihat apa yang populer
+- Cari tahu siapa yang diuntungkan
+- Pahami kenapa orang butuh hal itu
+- Temukan bagian yang bisa membuat posisi lo lebih kuat
+
+5. CONTOH:
+Dua orang bisa belajar hal yang sama.
+Tapi yang menang adalah yang tahu cara mengubah pengetahuan itu menjadi nilai.
+
+6. CTA:
+${profile.cta}
+
+CATATAN:
+${notes || "-"}`;
+    }
+
+    function makeGrowth(niche, topic, profile) {
+      return `MODE: GROWTH
+NICHE: ${niche}
+
+TOPIK:
+${topic}
+
+RENCANA GROWTH 7 HARI:
+
+DAY 1:
+Konten 1: Hook keras tentang masalah utama
+Konten 2: Checklist praktis yang bisa disimpan
+
+DAY 2:
+Konten 1: Kesalahan umum audiens
+Konten 2: Contoh konkret dari kehidupan sehari-hari
+
+DAY 3:
+Konten 1: Belief yang harus dilawan
+Konten 2: Framework sederhana
+
+DAY 4:
+Konten 1: Single image quote tajam
+Konten 2: Carousel edukatif
+
+DAY 5:
+Konten 1: Storytelling pendek
+Konten 2: Komentar audiens dijadikan konten
+
+DAY 6:
+Konten 1: Mitos vs realita
+Konten 2: Studi kasus sederhana
+
+DAY 7:
+Konten 1: Rangkuman mingguan
+Konten 2: CTA follow yang kuat
+
+PRINSIP:
+- Jangan terlalu umum
+- Setiap konten harus punya luka spesifik
+- Buat audiens merasa: “ini gue banget”
+- Minimal 1 konten per hari harus saveable`;
+    }
+
+    function makeRepurpose(niche, topic, profile) {
+      return `MODE: REPURPOSE
+NICHE: ${niche}
+TOPIK: ${topic}
+
+1 IDE DIUBAH JADI 7 FORMAT:
+
+1. Carousel:
+7 slide bahas masalah, mekanisme, contoh, dan checklist.
+
+2. Single Image:
+Quote tajam:
+"Jangan cuma belajar hal yang ramai. Belajar kenapa hal itu bernilai."
+
+3. Script Video:
+Opening keras + penjelasan 45 detik + CTA.
+
+4. Thread:
+5 poin pendek tentang cara membaca ${topic}.
+
+5. Caption Edukatif:
+Paragraf pendek yang menjelaskan diagnosis utama.
+
+6. Story:
+Polling:
+"Menurut lo, lebih penting skill atau cara membaca peluang?"
+
+7. Komentar:
+Balas komentar audiens dengan versi ringkas dari konten utama.`;
+    }
+
+    function makeEngage(niche, topic, profile) {
+      return `MODE: ENGAGE
+NICHE: ${niche}
+TOPIK: ${topic}
+
+BALASAN KOMENTAR:
+
+1. Kalau ada yang minta ringkasan:
+Intinya: jangan cuma lihat ${topic} dari permukaan. Cari tahu polanya, siapa yang diuntungkan, dan bagian mana yang bisa bikin posisi lo lebih kuat.
+
+2. Kalau ada yang tidak setuju:
+Masuk akal kalau lo lihat dari sisi itu. Tapi poin gue bukan menolak usaha. Poinnya, usaha akan lebih efektif kalau lo paham aturan mainnya.
+
+3. Kalau ada yang bilang “tergantung orangnya”:
+Betul, tapi sistem tetap punya pola. Orang yang paham polanya biasanya punya peluang lebih besar buat bergerak.
+
+4. Kalau ada yang tanya harus mulai dari mana:
+Mulai dari pertanyaan ini: masalah apa yang bisa lo selesaikan, siapa yang butuh, dan kenapa mereka peduli?
+
+5. Kalau ada yang relate:
+Nah itu poinnya. Banyak orang merasa ini masalah pribadi, padahal sering kali ada pola yang lebih besar di belakangnya.`;
+    }
+
+    function copyOutput() {
+      const text = document.getElementById("output").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        document.getElementById("modeStatus").textContent = "Output berhasil dicopy";
+        setTimeout(() => {
+          document.getElementById("modeStatus").textContent = "Mode: Template Lokal";
+        }, 1800);
+      });
+    }
+
+    function clearAll() {
+      document.getElementById("topic").value = "";
+      document.getElementById("notes").value = "";
+      document.getElementById("output").textContent = "Output akan muncul di sini.";
+    }
+  </script>
+</body>
+</html>
